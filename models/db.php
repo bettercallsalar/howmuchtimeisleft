@@ -1,5 +1,5 @@
 <?php
-class Bdd
+class Db
 {
 	protected $_db;
 
@@ -26,6 +26,8 @@ class Bdd
 			$strRq->execute();
 			return $strRq;
 		} catch (PDOException $e) {
+			echo $e->getMessage();
+			echo var_dump($strRq->errorInfo());
 			$_SESSION['error']  = "Erreur while executing the query";
 			return false;
 		}

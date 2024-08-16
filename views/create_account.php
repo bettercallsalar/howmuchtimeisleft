@@ -1,13 +1,13 @@
-<form name="create_account" action="index.php?ctrl=user&action=create_account" method="post">
+<form name="create_account" action="index.php?Controller=user&Action=createAccount" method="post">
     <div class="row g-3">
         <div class="col-sm-6">
-            <label for="name" class="form-label">First Name*</label>
-            <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($objUser) ? $objUser->getName() : ""; ?>" required>
+            <label for="first_name" class="form-label">First Name*</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo isset($objUser) ? $objUser->getFirstName() : ""; ?>" required>
         </div>
 
         <div class="col-sm-6">
-            <label for="firstname" class="form-label">Last Name*</label>
-            <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo isset($objUser) ? $objUser->getFirstname() : ""; ?>" required>
+            <label for="last_name" class="form-label">Last Name*</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo isset($objUser) ? $objUser->getLastName() : ""; ?>" required>
         </div>
 
         <div class="col-12">
@@ -16,31 +16,31 @@
         </div>
 
         <div class="col-12">
-            <label for="birth" class="form-label">Date Of Birth*</label>
-            <input type="date" class="form-control" id="birth" name="birth" value="<?php echo isset($objUser) ? $objUser->getDateOfBirth() : ""; ?>" required>
+            <label for="date_of_birth" class="form-label">Date Of Birth*</label>
+            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo isset($objUser) ? $objUser->getDateOfBirth() : ""; ?>" required>
         </div>
 
         <div class="col-12">
             <label for="email" class="form-label">Email*</label>
-            <input type="email" class="form-control" id="email" name="mail" placeholder="you@example.com" value="<?php echo isset($objUser) ? $objUser->getMail() : ""; ?>" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="<?php echo isset($objUser) ? $objUser->getEmail() : ""; ?>" required>
         </div>
 
         <div class="col-12">
-            <label for="pwd" class="form-label">Password*</label>
-            <input type="password" class="form-control" id="pwd" name="pwd" required>
+            <label for="password" class="form-label">Password*</label>
+            <input type="password" class="form-control" id="password" name="password" required>
         </div>
 
         <div class="col-12">
-            <label for="confirmpwd" class="form-label">Confirm Password*</label>
-            <input type="password" class="form-control" id="confirmpwd" name="confirmpwd" required>
+            <label for="confirmPassword" class="form-label">Confirm Password*</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
         </div>
 
         <div class="col-12">
-            <label for="country" class="form-label">Country*</label>
-            <select class="form-control" id="country" name="country" required>
+            <label for="country_id" class="form-label">Country*</label>
+            <select class="form-control" id="country_id" name="country_id" required>
                 <?php foreach ($countries as $country): ?>
-                    <option value="<?php echo $country->getId(); ?>" <?php echo isset($objUser) && $objUser->getCountry() == $country->getId() ? "selected" : ""; ?>>
-                        <?php echo $country->getName(); ?>
+                    <option value="<?php echo $country['id']; ?>" <?php echo isset($objUser) && $objUser->getCountryId() == $country['id'] ? "selected" : ""; ?>>
+                        <?php echo $country['country_name']; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
