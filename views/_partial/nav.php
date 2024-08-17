@@ -20,10 +20,10 @@
 				<?php if (isset($_SESSION['user'])) { ?>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="fas fa-user"></i> <?php echo $_SESSION['user']['user_name']; ?>
+							<i class="fas fa-user"></i> <?php echo $_SESSION['user']['username']; ?>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-							<li><a class="dropdown-item" href="index.php?Controller=user&Action=edit_account">My Account</a></li>
+							<li><a class="dropdown-item" href="index.php?Controller=user&Action=editProfile">My Account</a></li>
 							<li>
 								<hr class="dropdown-divider">
 							</li>

@@ -1,0 +1,95 @@
+body {
+    background-color: #f8f9fa;
+    color: #343a40;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    font-size: 1.2rem;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+ul li:last-child {
+    border-bottom: none;
+}
+
+.time-unit {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.header-background {
+    background-image: url('https://source.unsplash.com/1600x400/?time,clock');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.header-background h1 {
+    font-size: 3rem;
+}
+
+.header {
+    background: linear-gradient(135deg, #f3ec78, #af4261); /* Soft gradient */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 0; /* Added padding for vertical spacing */
+    min-height: 30vh; /* Ensure a minimum height */
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    padding: 0 20px;
+}
+
+.header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.header p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #ffffffcc;
+}
+
+.alert {
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.5rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+}

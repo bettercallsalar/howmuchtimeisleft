@@ -4,120 +4,146 @@ include("entities/mother_entity.php");
 
 class User extends Entity
 {
-    private string $_first_name = "";
-    private string $_last_name = "";
-    private string $_gendre = "";
-    private string $_email = "";
-    private string $_password = "";
-    private string $_date_of_birth = "";
-    private int $_country_id = 0;
-    private string $_role = "";
-    private string $_username = "";
-
-    public function __construct()
-    {
-        $this->_prefixe = "user_";
-    }
+    private string $first_name = '';
+    private string $last_name = '';
+    private string $gendre = '';
+    private string $email = '';
+    private string $password = '';
+    private string $date_of_birth = '';
+    private int $country_id = 0;
+    private string $role = '';
+    private string $username = '';
+    private string $bio = '';
+    private string $hobbies = '';
+    private bool $is_private = false;
 
     // Setters and getters
     public function setFirstName(string $strFirstName)
     {
-        $this->_first_name = strtolower(trim($strFirstName));
+        $this->first_name = strtolower(trim($strFirstName));
     }
 
     public function getFirstName(): string
     {
-        return $this->_first_name;
+        return $this->first_name;
     }
     // -----------------------------
     public function setLastName(string $strLastName)
     {
-        $this->_last_name = strtoupper(trim($strLastName));
+        $this->last_name = strtoupper(trim($strLastName));
     }
 
     public function getLastName(): string
     {
-        return $this->_last_name;
+        return $this->last_name;
     }
     // -----------------------------
 
     public function setGendre(string $strGendre)
     {
-        $this->_gendre = strtolower(trim($strGendre));
+        $this->gendre = strtolower(trim($strGendre));
     }
 
     public function getGendre(): string
     {
-        return $this->_gendre;
+        return $this->gendre;
     }
     // -----------------------------
 
     public function setEmail(string $strEmail)
     {
-        $this->_email = strtolower(trim($strEmail));
+        $this->email = strtolower(trim($strEmail));
     }
 
     public function getEmail(): string
     {
-        return $this->_email;
+        return $this->email;
     }
     // -----------------------------
 
     public function setPassword(string $strPassword)
     {
-        $this->_password = $strPassword;
+        $this->password = $strPassword;
     }
 
     public function getPassword(): string
     {
-        return $this->_password;
+        return $this->password;
     }
+
     public function getHashedPassword(): string
     {
-        return password_hash($this->_password, PASSWORD_DEFAULT);
+        return password_hash($this->password, PASSWORD_DEFAULT);
     }
     // -----------------------------
 
     public function setDateOfBirth(string $strDateOfBirth)
     {
-        $this->_date_of_birth = $strDateOfBirth;
+        $this->date_of_birth = $strDateOfBirth;
     }
 
     public function getDateOfBirth(): string
     {
-        return $this->_date_of_birth;
+        return $this->date_of_birth;
     }
     // -----------------------------
 
     public function setCountryId(int $intCountryId)
     {
-        $this->_country_id = $intCountryId;
+        $this->country_id = $intCountryId;
     }
 
     public function getCountryId(): int
     {
-        return $this->_country_id;
+        return $this->country_id;
     }
     // -----------------------------
 
     public function setRole(string $strRole)
     {
-        $this->_role = strtolower(trim($strRole));
+        $this->role = strtolower(trim($strRole));
     }
 
     public function getRole(): string
     {
-        return $this->_role;
+        return $this->role;
     }
     // -----------------------------
 
     public function setUsername(string $strUsername)
     {
-        $this->_username = strtolower(trim($strUsername));
+        $this->username = strtolower(trim($strUsername));
     }
 
     public function getUsername(): string
     {
-        return $this->_username;
+        return $this->username;
+    }
+    // -----------------------------
+    public function setBio(string $strBio)
+    {
+        $this->bio = $strBio;
+    }
+    public function getBio(): string | null
+    {
+        return $this->bio;
+    }
+    // -----------------------------
+    public function setHobbies(string $strHobbies)
+    {
+        $this->hobbies = $strHobbies;
+    }
+    public function getHobbies(): string | null
+    {
+        return $this->hobbies;
+    }
+    // -----------------------------
+    public function setIsPrivate(bool $boolIsPrivate)
+    {
+        $this->is_private = $boolIsPrivate;
+    }
+    public function getIsPrivate(): bool
+    {
+        return $this->is_private;
     }
 }
