@@ -7,8 +7,8 @@
     --header-gradient-start: #d7f8d9;
     --header-gradient-end: #31493C;
     --header-text-color: #f0f4f8;
-    --alert-background-color: #d7f8d9;
-    --alert-text-color: #721c24;
+    --alert-background-color: #7A9E7E;
+    --alert-text-color: #e9d67a;
     --week-color: #4eb24b;
     --week-checked-color: #c54c4c;
     --navbar-bg-color: #31493C;
@@ -22,6 +22,7 @@
 }
 
 body {
+    padding-top: 60px; /* Adjusts body padding to prevent content from hiding under the navbar */
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,7 +31,6 @@ body {
     min-height: 100vh;
     margin: 0;
 }
-
 .container {
     margin-top: 50px;
 }
@@ -86,6 +86,121 @@ ul li:last-child {
     background-color: var(--week-checked-color);
 }
 
+
+/* EXPERIENCES  */
+
+
+.shared-on {
+    display: flex;
+    margin-left: 20px;
+    color: var(--time-unit-color);
+}
+.card {
+    background-color: #ffffff; /* White background for the cards */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.04);
+}
+
+.card-title {
+    color: var(--background-color);
+}
+
+.card-text {
+    color: var(--header-gradient-en);
+}
+
+.card-footer {
+    background-color: var(--header-gradient-end); 
+    border-top: 1px solid var(--border-color);
+    color: var(--heading-color);
+}
+
+.btn-primary {
+    background-color: var(--navbar-active-color);
+    border-color: var(--navbar-border-color);
+    color: var(--header-gradient-end);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--week-checked-color);
+    border-color: var(--week-checked-color);
+}
+
+/* Comment Section Styles */
+.comment {
+    background-color: #f9f9f9; /* Light background for comments */
+    border: 1px solid var(--border-color); /* Use the same border color as other elements */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.comment strong {
+    color: var(--background-color); /* Use the main background color for username */
+    font-size: 1.1rem;
+}
+
+.comment p {
+    color: var(--header-gradient-end); /* Use the header gradient end color for text */
+    margin: 10px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.comment small {
+    color: var(--time-unit-color); /* Use the time-unit color for timestamps */
+}
+
+.form-group label {
+    color: var(--heading-color); /* Label color matching headings */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group textarea {
+    background-color: #fff; /* White background for the comment input */
+    border: 1px solid var(--border-color);
+    color: var(--background-color);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.form-group textarea:focus {
+    border-color: var(--navbar-active-color);
+    outline: none;
+}
+
+.btn-primary {
+    background-color: var(--navbar-active-color);
+    border-color: var(--navbar-border-color);
+    color: var(--header-gradient-end);
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--week-checked-color);
+    border-color: var(--week-checked-color);
+}
+
+.btn-primary.mt-2 {
+    margin-top: 20px;
+}
+
+h3 {
+    color: var(--heading-color);
+    margin-bottom: 20px;
+    font-size: 1.75rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
 /* Header */
 .header-background {
     background-image: url('https://source.unsplash.com/1600x400/?nature,sunrise');
@@ -131,12 +246,13 @@ ul li:last-child {
     font-size: 1.25rem;
     max-width: 700px;
     margin: 0 auto;
-    color: #ffffffcc; /* Slightly transparent white */
+    color: #ffffff;
 }
 
 .alert {
-    margin-top: 20px;
-    border-radius: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
     background-color: var(--alert-background-color);
     color: var(--alert-text-color);
 }
@@ -150,7 +266,106 @@ ul li:last-child {
         font-size: 1rem;
     }
 }
+/* Detailed Experience Styles */
 
+.card-detailed {
+    background-color: #ffffff; /* White background for the detailed card */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for emphasis */
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.card-detailed:hover {
+    transform: scale(1.02);
+}
+
+.card-body-detailed {
+    padding: 20px;
+}
+
+.card-title-detailed {
+    color: var(--background-color);
+    font-size: 2rem; /* Larger font size for detailed view */
+    margin-bottom: 15px;
+}
+
+.card-text-detailed {
+    color: var(--header-gradient-end);
+    font-size: 1.25rem; /* Slightly larger text for readability */
+    line-height: 1.6; /* Improved readability */
+    margin-bottom: 20px;
+}
+
+.shared-on-detailed {
+    display: block;
+    margin-top: 15px;
+    color: var(--time-unit-color);
+    font-size: 0.9rem; /* Smaller font for date */
+    margin-bottom: 20px;
+}
+.no-decoration {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.no-decoration:hover,
+.no-decoration:focus {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.card-footer-detailed {
+    background-color: var(--header-gradient-end);
+    color: var(--heading-color);
+    border-bottom: 3px solid var(--footer-link-color);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-footer-detailed span {
+    font-size: 1rem; /* Slightly larger for visibility */
+    color: var(--text-color);
+}
+
+.btn-secondary {
+    background-color: var(--navbar-active-color);
+    border-color: var(--navbar-border-color);
+    color: var(--header-gradient-end);
+    font-size: 0.9rem;
+    padding: 8px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--week-checked-color);
+    border-color: var(--week-checked-color);
+}
+
+/* Media Queries for Detailed Page */
+
+@media (max-width: 768px) {
+    .card-detailed {
+        padding: 15px;
+    }
+
+    .card-title-detailed {
+        font-size: 1.75rem;
+    }
+
+    .card-text-detailed {
+        font-size: 1.15rem;
+    }
+
+    .btn-secondary {
+        font-size: 0.85rem;
+        padding: 6px 15px;
+    }
+}
 /* Admin Page CSS */
 /* General styling for the admin dashboard container */
 .admin-dashboard {
@@ -245,7 +460,12 @@ ul li:last-child {
 .navbar {
     background-color: var(--navbar-bg-color);
     border-bottom: 2px solid var(--navbar-border-color);
+    position: fixed; /* Fixes the navbar at the top */
+    top: 0; /* Positions the navbar at the top of the page */
+    width: 100%; /* Ensures the navbar spans the full width of the viewport */
+    z-index: 1000; /* Keeps the navbar above other elements on the page */
 }
+
 
 .navbar-brand {
     color: var(--navbar-text-color);
