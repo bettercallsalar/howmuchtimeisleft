@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg border-bottom">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="#">How Much Time Is Left?</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,11 +10,22 @@
 					<a class="nav-link <?php echo ($strPage == "index") ? "active" : ""; ?>" href="index.php">Home</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link <?php echo ($strPage == "life_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=lifeExperience">Life Experience</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link <?php echo ($strPage == "create_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=createExperience">Share Experience</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link <?php echo ($strPage == "about") ? "active" : ""; ?>" href="index.php?Controller=page&Action=about">About</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link <?php echo ($strPage == "contact") ? "active" : ""; ?>" href="index.php?Controller=page&Action=contact">Contact</a>
 				</li>
+				<?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == "administrator") { ?>
+					<li class="nav-item">
+						<a class="nav-link <?php echo ($strPage == "admin") ? "active" : ""; ?>" href="index.php?Controller=admin&Action=dashboard">Admin</a>
+					</li>
+				<?php } ?>
 			</ul>
 			<ul class="navbar-nav ms-auto">
 				<?php if (isset($_SESSION['user'])) { ?>

@@ -4,204 +4,97 @@ class User_Ctrl extends Ctrl
 {
     public function createAccount()
     {
-        include("models/country_model.php");
-        $objCountryModel = new Country_Model();
-        $countries = $objCountryModel->getAllCountries();
-        $this->_arrData['countries'] = $countries;
+        $this->loadModels();
 
-        include("models/user_model.php");
-        $objUserModel = new User_Model();
         $arrErrors = array();
 
-        if (count($_POST) > 0) {
-            include("entities/user_entity.php");
+        if ($_POST) {
+            include_once("entities/user_entity.php");
             $objUser = new User();
             $objUser->hydrate($_POST);
             $this->_arrData['objUser'] = $objUser;
-            echo var_dump("Controller", $objUser);
 
-            if (empty($_POST['first_name'])) {
-                $arrErrors['first_name'] = "Please enter your first name.";
-            }
-            if (empty($_POST['last_name'])) {
-                $arrErrors['last_name'] = "Please enter your last name.";
-            }
-            if (empty($_POST['gendre'])) {
-                $arrErrors['gendre'] = "Please enter your gender.";
-            }
-            if (empty($_POST['email'])) {
-                $arrErrors['email'] = "Le mail est obligatoire";
-            } elseif (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)) {
-                $arrErrors['email'] = "Le mail n'est pas correct";
-            } elseif ($objUserModel->verifMail($objUser->getEmail()) !== false) {
-                $arrErrors['email'] = "Le mail existe déjà";
-            }
-            if (empty($_POST['username'])) {
-                $arrErrors['username'] = "Please enter your username.";
-            }
-            if (empty($_POST['date_of_birth'])) {
-                $arrErrors['date_of_birth'] = "Please enter your date of birth.";
-            }
-            if (empty($_POST['country_id'])) {
-                $arrErrors['country_id'] = "Please select your country.";
-            } else {
-                // Cast country_id to integer
-                $objUser->setCountryId((int)$_POST['country_id']);
-            }
+            $arrErrors = $this->validateUserInput($objUser, $_POST);
 
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirmPassword'];
-            $regex = '#^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{16,20}$#';
-
-            if (empty($password)) {
-                $arrErrors['password'] = "Le mot de passe est obligatoire";
-            } elseif (!preg_match($regex, $password)) {
-                $arrErrors['password'] = "Le mot de passe n'est pas correct";
-            } elseif ($password !== $confirmPassword) {
-                $arrErrors['password'] = "Le mot de passe et sa confirmation sont incorrect";
-            }
-
-            if (count($arrErrors) == 0) {
-                $boolInsert = $objUserModel->createUser($objUser);
+            if (empty($arrErrors)) {
+                $boolInsert = $this->_arrData['userModel']->createUser($objUser);
                 if ($boolInsert) {
-                    $_SESSION['valid'] = "Le compte a bien été créé, vous pouvez vous connecter.";
+                    $_SESSION['valid'] = "Your account has been created successfully. You can now log in.";
                     header("Location:index.php?Controller=user&Action=login");
+                    exit;
                 } else {
                     $arrErrors['database'] = "An error occurred while creating your account. Please try again.";
                 }
             }
-            if (count($arrErrors) > 0) {
-                echo "<div class='alert alert-danger'>";
-                foreach ($arrErrors as $strError) {
-                    echo "<p>" . $strError . "</p>";
-                }
-                echo "</div>";
-            }
+
+            $this->displayErrors($arrErrors);
         }
 
-        $this->_arrData['strPage'] = "create_account";
-        $this->_arrData['strTitleH1'] = "Create Account";
-        $this->_arrData['strFirstP'] = "Create your account";
-
-        $this->render('create_account');
+        $this->renderPage('create_account', "Create Account", "Create your account");
     }
+
     public function login()
     {
-        include("models/user_model.php");
-        $objUserModel = new User_Model();
+        $this->loadModels();
         $arrErrors = array();
 
-        if (count($_POST) > 0) {
+        if ($_POST) {
             $strEmail = trim($_POST['email']);
             $strPassword = $_POST['password'];
 
             if (empty($strEmail) || empty($strPassword)) {
                 $arrErrors[] = "Email and password are required.";
-            }
+            } else {
+                $arrUser = $this->_arrData['userModel']->getByMail($strEmail);
 
-            if (count($arrErrors) == 0) {
-                $arrUser = $objUserModel->getByMail($strEmail);
-                echo var_dump($arrUser);
-                if ($arrUser === false) {
-                    $arrErrors[] = "Error of connexion. Please try again.";
+                if (!$arrUser || !password_verify($strPassword, $arrUser['password'])) {
+                    $arrErrors[] = "Incorrect email or password. Please try again.";
                 } else {
-                    if (password_verify($strPassword, $arrUser['password'])) {
-                        unset($arrUser['password']);
-                        $_SESSION['user'] = $arrUser;
-                        $_SESSION['valid'] = "You are now connected.";
-                        $objUserModel->updateLastConnection($arrUser['id']);
-                        header("Location:index.php");
-                        exit;
-                    } else {
-                        $arrErrors[] = "Error of connexion. Please try again.";
-                    }
+                    unset($arrUser['password']);
+                    $_SESSION['user'] = $arrUser;
+                    $_SESSION['valid'] = "You are now connected.";
+                    $this->_arrData['userModel']->updateLastConnection($arrUser['id']);
+                    header("Location:index.php");
+                    exit;
                 }
             }
-        }
-        if (count($arrErrors) > 0) {
-            echo "<div class='alert alert-danger'>";
-            foreach ($arrErrors as $strError) {
-                echo "<p>" . $strError . "</p>";
-            }
-            echo "</div>";
+
+            $this->displayErrors($arrErrors);
         }
 
-
-        $this->_arrData['strPage'] = "login";
-        $this->_arrData['strTitleH1'] = "Login";
-        $this->_arrData['strFirstP'] = "Login page";
-
-        $this->render('login');
+        $this->renderPage('login', "Login", "Login page");
     }
 
     public function logout()
     {
         session_destroy();
         session_start();
-        $_SESSION['valid'] = "Vous êtes bien déconnecté";
+        $_SESSION['valid'] = "You have successfully logged out.";
         header("Location:index.php");
     }
 
     public function editProfile()
     {
-        if (!isset($_SESSION['user'])) {
-            $_SESSION['error'] = "Sorry, You must be logged in to edit your profile.";
-            header("Location:index.php?Controller=user&Action=login");
-            exit;
-        }
 
-        include("models/country_model.php");
-        $objCountryModel = new Country_Model();
-        $countries = $objCountryModel->getAllCountries();
-        $this->_arrData['countries'] = $countries;
+        $this->checkUserSession();
+        $this->loadModels();
 
-        include("models/user_model.php");
-        $objUserModel = new User_Model();
-        $arrErrors = array();
-
-        include("entities/user_entity.php");
-        $objUser = new User();
         $userId = $_SESSION['user']['id'];
+        $userData = $_SESSION['user'];
 
-        $userData = $objUserModel->getUserById($userId);
+        include_once("entities/user_entity.php");
+        $objUser = new User();
         $objUser->hydrate($userData);
         $this->_arrData['objUser'] = $objUser;
-        if (count($_POST) > 0) {
+
+        if ($_POST) {
             $objUser->hydrate($_POST);
+            $arrErrors = $this->validateUserInput($objUser, $_POST, $userData['email']);
 
-            if (empty($_POST['first_name'])) {
-                $arrErrors['first_name'] = "Please enter your first name.";
-            }
-            if (empty($_POST['last_name'])) {
-                $arrErrors['last_name'] = "Please enter your last name.";
-            }
-            if (empty($_POST['gendre'])) {
-                $arrErrors['gendre'] = "Please enter your gender.";
-            }
-            if (empty($_POST['email'])) {
-                $arrErrors['email'] = "Email is required.";
-            } elseif (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)) {
-                $arrErrors['email'] = "Invalid email format.";
-            } elseif ($objUserModel->verifMail($objUser->getEmail()) !== false && $objUser->getEmail() !== $userData['email']) {
-                $arrErrors['email'] = "Email already exists.";
-            }
-            if (empty($_POST['username'])) {
-                $arrErrors['username'] = "Please enter your username.";
-            }
-            if (empty($_POST['date_of_birth'])) {
-                $arrErrors['date_of_birth'] = "Please enter your date of birth.";
-            }
-            if (empty($_POST['country_id'])) {
-                $arrErrors['country_id'] = "Please select your country.";
-            } else {
-                // Cast country_id to integer
-                $objUser->setCountryId((int)$_POST['country_id']);
-            }
-
-
-            if (count($arrErrors) == 0) {
-                $boolUpdate = $objUserModel->updateUser($objUser, $userId);
+            if (empty($arrErrors)) {
+                $boolUpdate = $this->_arrData['userModel']->updateUser($objUser, $userId);
                 if ($boolUpdate) {
+                    $_SESSION['user'] = $this->updateSessionData($objUser);
                     $_SESSION['valid'] = "Your profile has been updated successfully.";
                     header("Location:index.php?Controller=user&Action=editProfile");
                     exit;
@@ -209,34 +102,106 @@ class User_Ctrl extends Ctrl
                     $arrErrors['database'] = "An error occurred while updating your profile. Please try again.";
                 }
             }
+
+            $this->displayErrors($arrErrors);
         }
 
-        if (count($arrErrors) > 0) {
+        $this->renderPage('edit_profile', "Edit Profile", "Update your profile information.");
+    }
+
+    private function loadModels()
+    {
+        include_once("models/country_model.php");
+        $objCountryModel = new Country_Model();
+        $this->_arrData['countries'] = $objCountryModel->getAllCountries();
+
+        include_once("models/user_model.php");
+        $this->_arrData['userModel'] = new User_Model();
+    }
+
+    private function checkUserSession()
+    {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['error'] = "Sorry, You must be logged in to edit your profile.";
+            header("Location:index.php?Controller=user&Action=login");
+            exit;
+        }
+    }
+
+    private function validateUserInput($objUser, $postData, $existingEmail = null)
+    {
+        $arrErrors = [];
+
+        if (empty($postData['first_name'])) {
+            $arrErrors['first_name'] = "Please enter your first name.";
+        }
+        if (empty($postData['last_name'])) {
+            $arrErrors['last_name'] = "Please enter your last name.";
+        }
+        if (empty($postData['gendre'])) {
+            $arrErrors['gendre'] = "Please enter your gender.";
+        }
+        if (empty($postData['email'])) {
+            $arrErrors['email'] = "Email is required.";
+        } elseif (!filter_var($objUser->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            $arrErrors['email'] = "Invalid email format.";
+        } elseif ($this->_arrData['userModel']->verifMail($objUser->getEmail()) !== false && $objUser->getEmail() !== $existingEmail) {
+            $arrErrors['email'] = "Email already exists.";
+        }
+        if (empty($postData['username'])) {
+            $arrErrors['username'] = "Please enter your username.";
+        }
+        if (empty($postData['date_of_birth'])) {
+            $arrErrors['date_of_birth'] = "Please enter your date of birth.";
+        }
+        if (empty($postData['country_id'])) {
+            $arrErrors['country_id'] = "Please select your country.";
+        } else {
+            $objUser->setCountryId((int)$postData['country_id']);
+        }
+
+        return $arrErrors;
+    }
+
+    private function updateSessionData($objUser)
+    {
+        return [
+            'id' => $objUser->getId(),
+            'first_name' => $objUser->getFirstName(),
+            'last_name' => $objUser->getLastName(),
+            'email' => $objUser->getEmail(),
+            'username' => $objUser->getUsername(),
+            'country_id' => $objUser->getCountryId(),
+            'gendre' => $objUser->getGendre(),
+            'hobbies' => $objUser->getHobbies(),
+            'bio' => $objUser->getBio(),
+            'is_private' => $objUser->getIsPrivate(),
+            'date_of_birth' => $objUser->getDateOfBirth(),
+            'role' => $_SESSION['user']['role']
+        ];
+    }
+
+    private function displayErrors($arrErrors)
+    {
+        if (!empty($arrErrors)) {
             echo "<div class='alert alert-danger'>";
             foreach ($arrErrors as $strError) {
                 echo "<p>" . $strError . "</p>";
             }
             echo "</div>";
         }
-
-        $this->_arrData['strPage'] = "edit_profile";
-        $this->_arrData['strTitleH1'] = "Edit Profile";
-        $this->_arrData['strFirstP'] = "Update your profile information.";
-
-        $this->render('edit_profile');
     }
+
     public function getUserById(int $userId): array|bool
     {
-        include("models/user_model.php");
-        $objUserModel = new User_Model();
-        $arrErrors = array();
+        $this->loadModels();
 
         if ($userId <= 0) {
-            $arrErrors[] = "Invalid user ID provided.";
+            $this->_arrData['errors'][] = "Invalid user ID provided.";
             return false;
         }
 
-        $userData = $objUserModel->getUserById($userId);
+        $userData = $this->_arrData['userModel']->getUserById($userId);
         if ($userData !== false) {
             return [
                 'date_of_birth' => $userData['date_of_birth'],
@@ -247,8 +212,7 @@ class User_Ctrl extends Ctrl
                 'is_private' => $userData['is_private']
             ];
         } else {
-            $arrErrors[] = "Could not retrieve the user information.";
-            $this->_arrData['errors'] = $arrErrors;
+            $this->_arrData['errors'][] = "Could not retrieve the user information.";
             return false;
         }
     }

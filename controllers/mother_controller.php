@@ -14,4 +14,13 @@ class Ctrl
         include("views/" . $strTemplate . ".php");
         include("views/_partial/footer.php");
     }
+
+
+    public function renderPage($page, $title, $firstP)
+    {
+        $this->_arrData['strPage'] = $page;
+        $this->_arrData['strTitleH1'] = $title;
+        $this->_arrData['strFirstP'] = $firstP;
+        $this->render($page);
+    }
 }

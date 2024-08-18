@@ -1,14 +1,12 @@
 <div class="container mt-5">
     <?php if (isset($_SESSION['user'])):
-
         $user = $_SESSION['user'];
         $firstName = $user['first_name'];
         $lastName = $user['last_name'];
 
         include_once("controllers/user_controller.php");
         $userCtrl = new User_Ctrl();
-        $userInfo = $userCtrl->getUserById($user['id']);
-        $dob = new DateTime($userInfo['date_of_birth']);
+        $dob = new DateTime($_SESSION['user']['date_of_birth']);
         $now = new DateTime();
 
         $secondsSinceBirth = $now->getTimestamp() - $dob->getTimestamp();
@@ -42,23 +40,27 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <?php if ($averageLifeExpectancy): ?>
-                    <p class="text-center mt-3">Average Life Expectancy in Your Country: <strong><?php echo $averageLifeExpectancy; ?> years</strong></p>
                     <div class="week-grid">
                         <?php for ($i = 1; $i <= $totalWeeksInAverageLife; $i++): ?>
                             <div class="week <?php echo $i <= $weeks ? 'checked' : ''; ?>"></div>
                         <?php endfor; ?>
-                    </div>
-                <?php endif; ?>
-                <ul class="list-group">
-                    <li class="list-group-item">Seconds: <span class="time-unit" id="seconds"><?php echo $seconds; ?></span></li>
-                    <li class="list-group-item">Minutes: <span class="time-unit" id="minutes"><?php echo $minutes; ?></span></li>
-                    <li class="list-group-item">Hours: <span class="time-unit" id="hours"><?php echo $hours; ?></span></li>
-                    <li class="list-group-item">Days: <span class="time-unit" id="days"><?php echo $days; ?></span></li>
-                    <li class="list-group-item">Weeks: <span class="time-unit" id="weeks"><?php echo $weeks; ?></span></li>
-                    <li class="list-group-item">Months: <span class="time-unit" id="months"><?php echo $months; ?></span></li>
-                    <li class="list-group-item">Years: <span class="time-unit" id="years"><?php echo $years; ?></span></li>
-                </ul>
 
+                    </div>
+                    <p class="text-center mt-3">Average Life Expectancy in Your Country: <strong><?php echo $averageLifeExpectancy; ?> years</strong></p>
+
+                <?php endif; ?>
+                <div class="calculator-group">
+                    <h3 class="text-center">Time Calculator</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">Seconds: <span class="time-unit" id="seconds"><?php echo $seconds; ?></span></li>
+                        <li class="list-group-item">Minutes: <span class="time-unit" id="minutes"><?php echo $minutes; ?></span></li>
+                        <li class="list-group-item">Hours: <span class="time-unit" id="hours"><?php echo $hours; ?></span></li>
+                        <li class="list-group-item">Days: <span class="time-unit" id="days"><?php echo $days; ?></span></li>
+                        <li class="list-group-item">Weeks: <span class="time-unit" id="weeks"><?php echo $weeks; ?></span></li>
+                        <li class="list-group-item">Months: <span class="time-unit" id="months"><?php echo $months; ?></span></li>
+                        <li class="list-group-item">Years: <span class="time-unit" id="years"><?php echo $years; ?></span></li>
+                    </ul>
+                </div>
 
             </div>
         </div>
@@ -86,20 +88,10 @@
                     days++;
                     hours = 0;
                 }
-                if (days % 7 === 0 && days !== 0) {
-                    weeks++;
-                    document.querySelectorAll('.week').forEach((week, index) => {
-                        if (index < weeks) {
-                            week.classList.add('checked');
-                        }
-                    });
-                }
-                if (days % 30 === 0 && days !== 0) {
-                    months++;
-                }
-                if (days % 365 === 0 && days !== 0) {
-                    years++;
-                }
+
+                weeks = Math.floor(days / 7);
+                months = Math.floor(days / 30.44);
+                years = Math.floor(days / 365.25);
 
                 document.getElementById('seconds').textContent = seconds;
                 document.getElementById('minutes').textContent = minutes;
@@ -123,28 +115,3 @@
 
     <?php endif; ?>
 </div>
-
-<style>
-    .week-grid {
-        display: grid;
-        grid-template-columns: repeat(125, 10px);
-
-        grid-gap: 2px;
-        margin-top: 20px;
-        margin-bottom: 30px;
-        justify-content: center;
-        max-width: 100%;
-        /* Make sure the grid takes up the full width available */
-    }
-
-    .week {
-        width: 10px;
-        height: 10px;
-        background-color: #e0e0e0;
-        border: 1px solid #ccc;
-    }
-
-    .week.checked {
-        background-color: #007bff;
-    }
-</style>

@@ -11,23 +11,25 @@
 </head>
 
 <body>
-	<?php include("nav.php"); ?>
+	<div class="wrapper">
+		<?php include("nav.php"); ?>
 
-	<header class="header">
-		<div class="header-content">
-			<h1 class="display-4 fst-italic"><?php echo $strTitleH1; ?></h1>
-			<p class="my-3"><?php echo $strFirstP; ?></p>
-		</div>
-	</header>
+		<header class="header">
+			<div class="header-content">
+				<h1 class="display-4 fst-italic"><?php echo $strTitleH1; ?></h1>
+				<p class="my-3"><?php echo $strFirstP; ?></p>
+			</div>
+		</header>
 
-	<main class="container mt-4">
-		<?php
-		if (isset($_SESSION['valid'])) {
-			echo "<p class='alert alert-success'>" . $_SESSION['valid'] . "</p>";
-			unset($_SESSION['valid']);
-		}
-		if (isset($_SESSION['error'])) {
-			echo "<p class='alert alert-danger'>" . $_SESSION['error'] . "</p>";
-			unset($_SESSION['error']);
-		}
-		?>
+		<main class="container mt-4">
+			<div class="content">
+				<?php
+				if (isset($_SESSION['valid'])) {
+					echo "<p class='alert alert-success'>" . $_SESSION['valid'] . "</p>";
+					unset($_SESSION['valid']);
+				}
+				if (isset($_SESSION['error'])) {
+					echo "<p class='alert alert-danger'>" . $_SESSION['error'] . "</p>";
+					unset($_SESSION['error']);
+				}
+				?>

@@ -14,7 +14,7 @@ class User extends Entity
     private string $role = '';
     private string $username = '';
     private string $bio = '';
-    private string $hobbies = '';
+    private ?string $hobbies = null; // Allow hobbies to be nullable
     private bool $is_private = false;
 
     // Setters and getters
@@ -120,28 +120,31 @@ class User extends Entity
         return $this->username;
     }
     // -----------------------------
-    public function setBio(string $strBio)
+    public function setBio(?string $strBio)
     {
-        $this->bio = $strBio;
+        $this->bio = $strBio ?? '';
     }
-    public function getBio(): string | null
+
+    public function getBio(): string
     {
         return $this->bio;
     }
     // -----------------------------
-    public function setHobbies(string $strHobbies)
+    public function setHobbies(?string $strHobbies)
     {
-        $this->hobbies = $strHobbies;
+        $this->hobbies = $strHobbies ?? '';
     }
-    public function getHobbies(): string | null
+
+    public function getHobbies(): string
     {
-        return $this->hobbies;
+        return $this->hobbies ?? '';
     }
     // -----------------------------
     public function setIsPrivate(bool $boolIsPrivate)
     {
         $this->is_private = $boolIsPrivate;
     }
+
     public function getIsPrivate(): bool
     {
         return $this->is_private;

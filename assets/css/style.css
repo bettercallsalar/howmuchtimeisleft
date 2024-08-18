@@ -1,7 +1,34 @@
+:root {
+    --background-color: #001A23;
+    --text-color: #B3EFB2;
+    --heading-color: #E8F1F2;
+    --border-color: #E8F1F2;
+    --time-unit-color: #31493C;
+    --header-gradient-start: #d7f8d9;
+    --header-gradient-end: #31493C;
+    --header-text-color: #f0f4f8;
+    --alert-background-color: #d7f8d9;
+    --alert-text-color: #721c24;
+    --week-color: #4eb24b;
+    --week-checked-color: #c54c4c;
+    --navbar-bg-color: #31493C;
+    --navbar-text-color: #d7f8e4;
+    --navbar-border-color: #001A23;
+    --navbar-active-color: #7A9E7E;
+    --footer-bg-color: #31493C;
+    --footer-text-color: #B3EFB2;
+    --footer-link-color: #7A9E7E;
+    --footer-link-hover-color: #4eb24b;
+}
+
 body {
-    background-color: #f8f9fa;
-    color: #343a40;
+    background-color: var(--background-color);
+    color: var(--text-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .container {
@@ -10,6 +37,7 @@ body {
 
 h1, h2 {
     text-align: center;
+    color: var(--heading-color);
 }
 
 ul {
@@ -20,7 +48,7 @@ ul {
 ul li {
     font-size: 1.2rem;
     padding: 10px 0;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--border-color);
 }
 
 ul li:last-child {
@@ -29,11 +57,38 @@ ul li:last-child {
 
 .time-unit {
     font-weight: bold;
-    color: #007bff;
+    color: var(--time-unit-color);
 }
 
+.calculator-group {
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(125, 10px);
+    grid-gap: 2px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.week {
+    width: 10px;
+    height: 10px;
+    background-color: var(--week-color);
+    border: 1px solid #ccc;
+}
+
+.week.checked {
+    background-color: var(--week-checked-color);
+}
+
+/* Header */
 .header-background {
-    background-image: url('https://source.unsplash.com/1600x400/?time,clock');
+    background-image: url('https://source.unsplash.com/1600x400/?nature,sunrise');
     background-size: cover;
     background-position: center;
     color: white;
@@ -46,16 +101,16 @@ ul li:last-child {
 }
 
 .header {
-    background: linear-gradient(135deg, #f3ec78, #af4261); /* Soft gradient */
-    color: #fff;
+    background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
+    color: var(--header-text-color);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
     overflow: hidden;
-    padding: 60px 0; /* Added padding for vertical spacing */
-    min-height: 30vh; /* Ensure a minimum height */
+    padding: 60px 0;
+    min-height: 30vh;
 }
 
 .header-content {
@@ -76,12 +131,14 @@ ul li:last-child {
     font-size: 1.25rem;
     max-width: 700px;
     margin: 0 auto;
-    color: #ffffffcc;
+    color: #ffffffcc; /* Slightly transparent white */
 }
 
 .alert {
     margin-top: 20px;
     border-radius: 5px;
+    background-color: var(--alert-background-color);
+    color: var(--alert-text-color);
 }
 
 @media (max-width: 768px) {
@@ -92,4 +149,180 @@ ul li:last-child {
     .header p {
         font-size: 1rem;
     }
+}
+
+/* Admin Page CSS */
+/* General styling for the admin dashboard container */
+.admin-dashboard {
+    padding: 2rem;
+    background-color: var(--background-color); /* Use background color from root */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+}
+
+/* Heading styling */
+.admin-dashboard h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--heading-color); /* Use heading color from root */
+    text-align: center;
+}
+
+/* Form label styling */
+.admin-dashboard label {
+    font-weight: bold;
+    color: var(--text-color); /* Use text color from root */
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* Input field styling */
+.admin-dashboard .form-control {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--border-color); /* Use border color from root */
+    margin-bottom: 1rem;
+    background-color: var(--background-color); /* Match the background */
+    color: var(--text-color); /* Match the text color */
+}
+
+/* Button styling */
+.admin-dashboard .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.admin-dashboard .btn-primary {
+    background-color: var(--navbar-active-color); /* Use active navbar color */
+    border-color: var(--navbar-border-color); /* Use navbar border color */
+    color: var(--navbar-text-color); /* Use navbar text color */
+}
+
+.admin-dashboard .btn-primary:hover,
+.admin-dashboard .btn-primary:focus {
+    background-color: var(--week-checked-color); /* Use week checked color for hover/focus */
+    border-color: var(--week-checked-color);
+}
+
+.admin-dashboard .btn-danger {
+    background-color: var(--alert-background-color); /* Use alert background color */
+    border-color: var(--alert-background-color);
+    color: var(--alert-text-color); /* Use alert text color */
+}
+
+.admin-dashboard .btn-danger:hover,
+.admin-dashboard .btn-danger:focus {
+    background-color: var(--week-checked-color); /* Use week checked color for hover/focus */
+    border-color: var(--week-checked-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .admin-dashboard {
+        padding: 1.5rem;
+    }
+
+    .admin-dashboard h1 {
+        font-size: 1.75rem;
+    }
+
+    .admin-dashboard .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: var(--navbar-bg-color);
+    border-bottom: 2px solid var(--navbar-border-color);
+}
+
+.navbar-brand {
+    color: var(--navbar-text-color);
+    font-weight: bold;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: var(--navbar-active-color);
+}
+
+.navbar-nav .nav-link {
+    text-decoration: none; 
+    color: var(--navbar-text-color);
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link.active {
+    text-decoration: underline;
+    color: var(--navbar-active-color);
+}
+
+.navbar-toggler {
+    border-color: var(--navbar-border-color);
+}
+
+/* Dropdown menu */
+.navbar .dropdown-menu {
+    background-color: var(--navbar-bg-color);
+    border-color: var(--navbar-border-color);
+}
+
+.navbar .dropdown-menu .dropdown-item {
+    color: var(--navbar-text-color);
+}
+
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+    background-color: var(--navbar-active-color);
+    color: var(--navbar-bg-color);
+}
+
+.navbar .dropdown-divider {
+    border-color: var(--navbar-border-color);
+}
+
+/* Wrapper for footer */
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg-color) !important;
+    color: var(--footer-text-color) !important;
+    padding: 2rem 0;
+    margin-top: auto;
+    width: 100%;
+}
+
+footer a {
+    color: var(--footer-link-color) !important;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--footer-link-hover-color) !important;
+    text-decoration: underline;
+}
+
+footer p {
+    margin: 0.5rem 0;
+}
+
+footer .mb-0 {
+    margin-bottom: 0 !important;
 }

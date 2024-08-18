@@ -7,20 +7,12 @@ class Page_Ctrl extends Ctrl
 {
     public function contact()
     {
-        $this->_arrData['strPage']        = "contact";
-        $this->_arrData['strTitleH1']    = "Contact";
-        $this->_arrData['strFirstP']    = "Page de contact";
-
-        $this->render('contact');
+        $this->renderPage('contact', "Contact", "Contact us");
     }
 
     public function mentions()
     {
-        $this->_arrData['strPage']        = "mentions";
-        $this->_arrData['strTitleH1']    = "Mentions légales";
-        $this->_arrData['strFirstP']    = "Page de contenu";
-
-        $this->render('mentions');
+        $this->renderPage('mentions', "Legal notice", "Legal notice");
     }
 
     public function about()
@@ -28,10 +20,7 @@ class Page_Ctrl extends Ctrl
         if (!$_SESSION['user']) {
             header("Location:index.php?ctrl=error&action=error_403");
         }
-        $this->_arrData['strPage']        = "about";
-        $this->_arrData['strTitleH1']    = "A propos";
-        $this->_arrData['strFirstP']    = "Page de contenu";
 
-        $this->render('about');
+        $this->renderPage('about', "About", "About us");
     }
 }

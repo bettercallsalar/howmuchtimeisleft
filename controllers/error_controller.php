@@ -5,19 +5,15 @@ class Error_Ctrl extends Ctrl
 
     public function error_404()
     {
-        $this->_arrData['strPage']        = "error_404";
-        $this->_arrData['strTitleH1']    = "404";
-        $this->_arrData['strFirstP']    = "Page d'erreur 404";
 
-        $this->render('error_404');
+
+        $this->renderPage('error_404', "404", "Page not found");
     }
 
     public function error_403()
     {
-        $this->_arrData['strPage']        = "error_403";
-        $this->_arrData['strTitleH1']    = "403";
-        $this->_arrData['strFirstP']    = "Page d'erreur 403";
 
-        $this->render('error_403');
+
+        $this->renderPage('error_403', "403", "Access denied");
     }
 }
