@@ -19,7 +19,7 @@
     --footer-text-color: #B3EFB2;
     --footer-link-color: #7A9E7E;
     --footer-link-hover-color: #4eb24b;
-    --hovering-color: #b34dd4;
+    --hovering-color: #b79c03;
 }
 
 body {
@@ -86,7 +86,12 @@ ul li:last-child {
 .week.checked {
     background-color: var(--week-checked-color);
 }
-
+.form-control{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    max-width: 25%;
+}
 
 /* EXPERIENCES  */
 
@@ -134,38 +139,44 @@ ul li:last-child {
 
 /* Comment Section Styles */
 .comment {
-    background-color: #f9f9f9; /* Light background for comments */
-    border: 1px solid var(--border-color); /* Use the same border color as other elements */
+    background-color: #f9f9f9; 
+    border: 1px solid var(--border-color);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.2s;
 }
 
+.comment:hover {
+    transform: scale(1.02); 
+}
+
+
 .comment strong {
-    color: var(--background-color); /* Use the main background color for username */
+    color: var(--background-color); 
     font-size: 1.1rem;
 }
 
 .comment p {
-    color: var(--header-gradient-end); /* Use the header gradient end color for text */
+    color: var(--header-gradient-end); 
     margin: 10px 0;
     font-size: 1rem;
     line-height: 1.5;
 }
 
 .comment small {
-    color: var(--time-unit-color); /* Use the time-unit color for timestamps */
+    color: var(--time-unit-color); 
 }
 
 .form-group label {
-    color: var(--heading-color); /* Label color matching headings */
+    color: var(--heading-color); 
     font-weight: bold;
     margin-bottom: 5px;
 }
 
 .form-group textarea {
-    background-color: #fff; /* White background for the comment input */
+    background-color: #fff; 
     border: 1px solid var(--border-color);
     color: var(--background-color);
     border-radius: 5px;
@@ -186,8 +197,8 @@ ul li:last-child {
 }
 
 .btn-primary:hover, .btn-primary:focus {
-    background-color: var(--week-checked-color);
-    border-color: var(--week-checked-color);
+    background-color: var(--hovering-color);
+    border-color: var(--hovering-color);
 }
 
 .btn-primary.mt-2 {
@@ -201,20 +212,16 @@ h3 {
     border-bottom: 2px solid var(--border-color);
     padding-bottom: 10px;
 }
-
+.comment-textarea{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+}
 /* Header */
-.header-background {
-    background-image: url('https://source.unsplash.com/1600x400/?nature,sunrise');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    padding: 100px 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.header-background h1 {
-    font-size: 3rem;
-}
 
 .header {
     background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
@@ -546,4 +553,10 @@ footer p {
 
 footer .mb-0 {
     margin-bottom: 0 !important;
+}
+
+.user-introducer{
+    color: var(--header-gradient-end);
+    display: flex;
+    font-size: large;
 }

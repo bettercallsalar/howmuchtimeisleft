@@ -42,7 +42,7 @@ class Experience_Model extends Db
                 ue.*, 
                 (SELECT COUNT(*) FROM comments WHERE experience_id = ue.id) as comments, 
                 (SELECT COUNT(*) FROM likes WHERE experience_id = ue.id) as likes,
-                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as view_count
+                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as views
             FROM 
                 user_experience ue 
             WHERE 
@@ -61,11 +61,41 @@ class Experience_Model extends Db
 
 
 
-    public function getUserExperiences($userId)
+    public function getSortedExperiences($sort)
     {
-        $strQuery = "SELECT * FROM user_experience WHERE user_id = :user_id AND is_deleted = 0 ORDER BY created_at DESC;";
+        $orderClause = "ue.created_at DESC"; // Default sorting (most recent)
+
+        switch ($sort) {
+            case 'oldest':
+                $orderClause = "ue.created_at ASC";
+                break;
+            case 'most_liked':
+                $orderClause = "(SELECT COUNT(*) FROM likes WHERE experience_id = ue.id) DESC";
+                break;
+            case 'most_viewed':
+                $orderClause = "(SELECT COUNT(*) FROM views WHERE experience_id = ue.id) DESC";
+                break;
+            case 'most_commented':
+                $orderClause = "(SELECT COUNT(*) FROM comments WHERE experience_id = ue.id) DESC";
+                break;
+        }
+
+        $strQuery = "
+            SELECT 
+                ue.*, 
+                (SELECT COUNT(*) FROM comments WHERE experience_id = ue.id) as comments, 
+                (SELECT COUNT(*) FROM likes WHERE experience_id = ue.id) as likes,
+                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as views
+            FROM 
+                user_experience ue 
+            WHERE 
+                ue.is_public = 1 
+                AND ue.is_deleted = 0 
+            ORDER BY 
+                $orderClause;
+        ";
+
         $strPrepare = $this->_db->prepare($strQuery);
-        $strPrepare->bindValue(":user_id", $userId, PDO::PARAM_INT);
         $strPrepare->execute();
 
         return $strPrepare->fetchAll(PDO::FETCH_ASSOC);
@@ -76,11 +106,18 @@ class Experience_Model extends Db
         $strQuery = "
             SELECT 
                 ue.*, 
+                u.username, 
+                TIMESTAMPDIFF(YEAR, u.date_of_birth, CURDATE()) AS age,
+                c.country_name as country_name,
                 (SELECT COUNT(*) FROM comments WHERE experience_id = ue.id) as comments, 
                 (SELECT COUNT(*) FROM likes WHERE experience_id = ue.id) as likes,
-                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as view_count
+                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as views
             FROM 
                 user_experience ue 
+            JOIN 
+                user u ON ue.user_id = u.id
+            JOIN 
+                country c ON u.country_id = c.id
             WHERE 
                 ue.id = :experience_id 
                 AND ue.is_public = 1 
@@ -90,10 +127,15 @@ class Experience_Model extends Db
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindValue(":experience_id", $experienceId, PDO::PARAM_INT);
         $strPrepare->execute();
+
+        $experience = $strPrepare->fetch(PDO::FETCH_ASSOC);
+
+
         $this->incrementViewCount($experienceId, $_SESSION['user']['id']);
 
-        return $strPrepare->fetch(PDO::FETCH_ASSOC);
+        return $experience;
     }
+
 
     public function incrementViewCount($experienceId, $userId)
     {
@@ -125,7 +167,6 @@ class Experience_Model extends Db
     }
     public function toggleLikeDislike($experienceId, $userId)
     {
-        // Check if the user has already liked the experience
         $strQuery = "SELECT COUNT(*) FROM likes WHERE experience_id = :experience_id AND user_id = :user_id";
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
@@ -134,7 +175,6 @@ class Experience_Model extends Db
         $likeExists = $strPrepare->fetchColumn();
 
         if ($likeExists) {
-            // If the like exists, remove it (dislike)
             $strQuery = "DELETE FROM likes WHERE experience_id = :experience_id AND user_id = :user_id";
             $strPrepare = $this->_db->prepare($strQuery);
         } else {
@@ -191,13 +231,32 @@ class Experience_Model extends Db
 
     public function getComments($experienceId)
     {
-        $strQuery = "SELECT c.*, u.username FROM comments c JOIN user u ON c.user_id = u.id WHERE c.experience_id = :experience_id ORDER BY c.created_at ASC";
+        $strQuery = "
+            SELECT 
+                c.*, 
+                u.username, 
+                u.date_of_birth, 
+                TIMESTAMPDIFF(YEAR, u.date_of_birth, CURDATE()) AS age,
+                co.country_name
+            FROM 
+                comments c 
+            JOIN 
+                user u ON c.user_id = u.id 
+            JOIN 
+                country co ON u.country_id = co.id
+            WHERE 
+                c.experience_id = :experience_id 
+            ORDER BY 
+                c.created_at ASC";
+
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
         $strPrepare->execute();
 
         return $strPrepare->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
     public function updateExperience($objExperience)
     {
@@ -215,6 +274,15 @@ class Experience_Model extends Db
         $strQuery = "UPDATE user_experience SET is_deleted = 1 WHERE id = :experience_id";
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
+
+        return $strPrepare->execute();
+    }
+
+    public function deleteComment($commentId)
+    {
+        $strQuery = "DELETE FROM comments WHERE id = :comment_id";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
 
         return $strPrepare->execute();
     }

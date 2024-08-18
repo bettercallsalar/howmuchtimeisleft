@@ -10,16 +10,16 @@
                             <span class="ml-2"><i class="fas fa-heart"></i> <?php echo $experience['likes']; ?> Likes</span>
                         <?php endif; ?>
                     </a>
-                    <a href="index.php?Controller=experience&Action=getCommentOfExperience&experience_id=<?php echo $experience['id']; ?>" class="no-decoration">
-                        <?php if ($hasCommented): ?>
-                            <span class="ml-2"><i class="fas fa-comments text-warning"></i> <?php echo $experience['comments']; ?> Comments</span>
-                        <?php else: ?>
-                            <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
-                        <?php endif; ?>
-                    </a>
-                    <span class="ml-2"><i class="fas fa-eye text-info"></i> <?php echo $experience['view_count']; ?> Views</span>
+                    <?php if ($hasCommented): ?>
+                        <span class="ml-2"><i class="fas fa-comments text-warning"></i> <?php echo $experience['comments']; ?> Comments</span>
+                    <?php else: ?>
+                        <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
+                    <?php endif; ?>
+                    <span class="ml-2"><i class="fas fa-eye text-info"></i> <?php echo $experience['views']; ?> Views</span>
                 </div>
+
                 <div class="card-detailed">
+                    <strong class="user-introducer"><?php echo htmlspecialchars($experience['age']); ?> years old, <?php echo htmlspecialchars($experience['username']); ?> from <?php echo htmlspecialchars($experience['country_name']); ?> says:</strong>
                     <div class="card-body-detailed">
                         <h1 class="card-title-detailed"><?php echo htmlspecialchars($experience['title']); ?></h1>
                         <p class="card-text-detailed"><?php echo nl2br(htmlspecialchars($experience['content'])); ?></p>
@@ -54,30 +54,13 @@
                 </div>
             <?php endif; ?>
 
-            <!-- Comments Section -->
-            <div class="col-md-12">
-                <h3>Comments</h3>
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $comment): ?>
-                        <div class="comment mb-3">
-                            <strong><?php echo htmlspecialchars($comment['username']); ?>:</strong>
-                            <p><?php echo nl2br(htmlspecialchars($comment['comment'])); ?></p>
-                            <small class="text-muted">Posted on <?php echo date("F j, Y, g:i a", strtotime($comment['created_at'])); ?></small>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No comments yet. Be the first to comment!</p>
-                <?php endif; ?>
-            </div>
-
-            <!-- Comment Form -->
             <div class="col-md-12">
                 <?php if (isset($_SESSION['user'])): ?>
                     <form action="index.php?Controller=experience&Action=writeComment" method="POST">
                         <input type="hidden" name="experience_id" value="<?php echo $experience['id']; ?>">
                         <div class="form-group">
                             <label for="comment">Your Comment</label>
-                            <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+                            <textarea name="comment" id="comment" class="comment-textarea" rows="3" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
                     </form>
@@ -85,6 +68,29 @@
                     <p>Please <a href="index.php?Controller=user&Action=login">login</a> to leave a comment.</p>
                 <?php endif; ?>
             </div>
+
+            <div class="col-md-12">
+                <h3>Comments</h3>
+                <?php if (!empty($comments)): ?>
+                    <?php foreach ($comments as $comment): ?>
+                        <div class="comment mb-3">
+                            <strong><?php echo ($comment['age']); ?>years old, <?php echo htmlspecialchars($comment['username']); ?> from <?php echo htmlspecialchars($comment['country_name']); ?>:</strong>
+                            <p><?php echo nl2br(htmlspecialchars($comment['comment'])); ?></p>
+                            <small class="text-muted">Posted on <?php echo date("F j, Y, g:i a", strtotime($comment['created_at'])); ?></small>
+                            <?php if ($_SESSION['user']['id'] == $comment['user_id']) {
+                                echo '<a href="index.php?Controller=experience&Action=deleteComment&comment_id=' . $comment['id'] . '&experience_id=' . $experience['id'] . '" class="btn btn-danger btn-sm">Delete</a>';
+                            } elseif ($_SESSION['user']['role'] === 'administrator') {
+                                echo '<a href="index.php?Controller=experience&Action=deleteComment&comment_id=' . $comment['id'] . '&experience_id=' . $experience['id'] . '" class="btn btn-danger btn-sm">Delete</a>';
+                            } ?>
+                        </div>
+
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No comments yet. Be the first to comment!</p>
+                <?php endif; ?>
+            </div>
+
+
 
             <div class="col-md-12">
                 <a class="nav-link <?php echo ($strPage == "life_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=lifeExperience">

@@ -34,11 +34,12 @@
 							<i class="fas fa-user"></i> <?php echo $_SESSION['user']['username']; ?>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-							<li><a class="dropdown-item" href="index.php?Controller=user&Action=editProfile">My Account</a></li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="index.php?Controller=user&Action=logout">Logout</a></li>
+							<a class="dropdown-item" href="index.php?Controller=user&Action=editProfile">
+								<li>My Account</li>
+							</a>
+							<a class="dropdown-item" href="index.php?Controller=user&Action=logout">
+								<li>Logout</li>
+							</a>
 						</ul>
 					</li>
 				<?php } else { ?>

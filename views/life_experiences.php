@@ -1,4 +1,22 @@
 <div class="container">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form method="GET" action="index.php">
+                <input type="hidden" name="Controller" value="experience">
+                <input type="hidden" name="Action" value="lifeExperience">
+                <div class="form-group">
+                    <label for="sort">Sort by:</label>
+                    <select name="sort" id="sort" class="form-control" onchange="this.form.submit()">
+                        <option value="most_recent" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'most_recent') ? 'selected' : ''; ?>>Most Recent</option>
+                        <option value="oldest" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'oldest') ? 'selected' : ''; ?>>Oldest</option>
+                        <option value="most_liked" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'most_liked') ? 'selected' : ''; ?>>Most Liked</option>
+                        <option value="most_viewed" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'most_viewed') ? 'selected' : ''; ?>>Most Viewed</option>
+                        <option value="most_commented" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'most_commented') ? 'selected' : ''; ?>>Most Commentes</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
     <?php if (!isset($_SESSION['user'])): ?>
         <div class="alert alert-warning" role="alert">
             Please Login to be able to read more about experiences.
@@ -43,9 +61,9 @@
                                 <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
                             <?php endif; ?>
                             <?php if (isset($_SESSION['user']) && $experience['hasViewed']): ?>
-                                <span class="ml-2"><i class="fas fa-eye text-info "></i> <?php echo $experience['view_count']; ?> Views</span>
+                                <span class="ml-2"><i class="fas fa-eye text-info "></i> <?php echo $experience['views']; ?> Views</span>
                             <?php else: ?>
-                                <span class="ml-2"><i class="fas fa-eye"></i> <?php echo $experience['view_count']; ?> Views</span>
+                                <span class="ml-2"><i class="fas fa-eye"></i> <?php echo $experience['views']; ?> Views</span>
                             <?php endif; ?>
 
                         </div>
