@@ -37,8 +37,17 @@
                                 <span class="ml-2"><i class="fas fa-heart"></i> <?php echo $experience['likes']; ?> Likes</span>
                             <?php endif; ?>
 
-                            <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
-                            <span class="ml-2"><i class="fas fa-eye"></i> <?php echo $experience['view_count']; ?> Views</span>
+                            <?php if (isset($_SESSION['user']) && $experience['hasCommented']): ?>
+                                <span class="ml-2"><i class="fas fa-comments text-warning"></i> <?php echo $experience['comments']; ?> Comments</span>
+                            <?php else: ?>
+                                <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
+                            <?php endif; ?>
+                            <?php if (isset($_SESSION['user']) && $experience['hasViewed']): ?>
+                                <span class="ml-2"><i class="fas fa-eye text-info "></i> <?php echo $experience['view_count']; ?> Views</span>
+                            <?php else: ?>
+                                <span class="ml-2"><i class="fas fa-eye"></i> <?php echo $experience['view_count']; ?> Views</span>
+                            <?php endif; ?>
+
                         </div>
                     </div>
                 </div>

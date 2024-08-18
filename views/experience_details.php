@@ -11,9 +11,13 @@
                         <?php endif; ?>
                     </a>
                     <a href="index.php?Controller=experience&Action=getCommentOfExperience&experience_id=<?php echo $experience['id']; ?>" class="no-decoration">
-                        <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
+                        <?php if ($hasCommented): ?>
+                            <span class="ml-2"><i class="fas fa-comments text-warning"></i> <?php echo $experience['comments']; ?> Comments</span>
+                        <?php else: ?>
+                            <span class="ml-2"><i class="fas fa-comments"></i> <?php echo $experience['comments']; ?> Comments</span>
+                        <?php endif; ?>
                     </a>
-                    <span class="ml-2"><i class="fas fa-eye no-decoration"></i> <?php echo $experience['view_count']; ?> Views</span>
+                    <span class="ml-2"><i class="fas fa-eye text-info"></i> <?php echo $experience['view_count']; ?> Views</span>
                 </div>
                 <div class="card-detailed">
                     <div class="card-body-detailed">
@@ -21,8 +25,34 @@
                         <p class="card-text-detailed"><?php echo nl2br(htmlspecialchars($experience['content'])); ?></p>
                     </div>
                     <small class="text-muted-detailed shared-on-detailed">Shared on <?php echo date("F j, Y", strtotime($experience['created_at'])); ?></small>
+                    <?php if ($_SESSION['user']['id'] == $experience['user_id']): ?>
+                        <a href="index.php?Controller=experience&Action=editExperience&experience_id=<?php echo $experience['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="index.php?Controller=experience&Action=deleteExperience&experience_id=<?php echo $experience['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                    <?php elseif ($_SESSION['user']['role'] === 'administrator'): ?>
+                        <a href="index.php?Controller=experience&Action=deleteExperience&experience_id=<?php echo $experience['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                    <?php endif; ?>
                 </div>
             </div>
+
+            <!-- Edit Experience Form -->
+            <?php if ($isEditMode): ?>
+                <div class="col-md-12">
+                    <h3>Edit Experience</h3>
+                    <form action="index.php?Controller=experience&Action=updateExperience" method="POST">
+                        <input type="hidden" name="experience_id" value="<?php echo $experience['id']; ?>">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" class="form-control" value="<?php echo htmlspecialchars($experience['title']); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            <textarea name="content" id="content" class="form-control" rows="5" required><?php echo htmlspecialchars($experience['content']); ?></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Update Experience</button>
+                        <a href="index.php?Controller=experience&Action=readMore&experience_id=<?php echo $experience['id']; ?>" class="btn btn-secondary mt-2">Cancel</a>
+                    </form>
+                </div>
+            <?php endif; ?>
 
             <!-- Comments Section -->
             <div class="col-md-12">
@@ -57,7 +87,9 @@
             </div>
 
             <div class="col-md-12">
-                <button onclick="history.back()" class="btn btn-secondary mt-3">Go Back</button>
+                <a class="nav-link <?php echo ($strPage == "life_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=lifeExperience">
+                    <button class="btn btn-secondary mt-3">Back to Life Experience</button>
+                </a>
             </div>
         </div>
     <?php else: ?>

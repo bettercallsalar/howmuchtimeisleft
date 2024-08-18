@@ -16,6 +16,24 @@ class Experience_Model extends Db
 
         return $this->queryExecuter($strPrepare);
     }
+    public function updateLastExperience($userId)
+    {
+        $strQuery = "UPDATE user SET last_experience = NOW() WHERE id = :user_id;";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindValue(":user_id", $userId, PDO::PARAM_INT);
+
+        return $this->queryExecuter($strPrepare);
+    }
+
+    public function getLastExperience($userId)
+    {
+        $strQuery = "SELECT last_experience FROM user WHERE id = :user_id;";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindValue(":user_id", $userId, PDO::PARAM_INT);
+        $strPrepare->execute();
+
+        return $strPrepare->fetchColumn();
+    }
 
     public function getPublicExperiences()
     {
@@ -24,7 +42,7 @@ class Experience_Model extends Db
                 ue.*, 
                 (SELECT COUNT(*) FROM comments WHERE experience_id = ue.id) as comments, 
                 (SELECT COUNT(*) FROM likes WHERE experience_id = ue.id) as likes,
-                ue.view_count
+                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as view_count
             FROM 
                 user_experience ue 
             WHERE 
@@ -39,6 +57,8 @@ class Experience_Model extends Db
 
         return $strPrepare->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
 
     public function getUserExperiences($userId)
@@ -58,7 +78,7 @@ class Experience_Model extends Db
                 ue.*, 
                 (SELECT COUNT(*) FROM comments WHERE experience_id = ue.id) as comments, 
                 (SELECT COUNT(*) FROM likes WHERE experience_id = ue.id) as likes,
-                ue.view_count
+                (SELECT COUNT(*) FROM views WHERE experience_id = ue.id) as view_count
             FROM 
                 user_experience ue 
             WHERE 
@@ -70,18 +90,39 @@ class Experience_Model extends Db
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindValue(":experience_id", $experienceId, PDO::PARAM_INT);
         $strPrepare->execute();
+        $this->incrementViewCount($experienceId, $_SESSION['user']['id']);
 
         return $strPrepare->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function incrementViewCount($experienceId)
+    public function incrementViewCount($experienceId, $userId)
     {
-        $strQuery = "UPDATE user_experience SET view_count = view_count + 1 WHERE id = :experience_id";
+        // Check if the user has already viewed this experience
+        $strQuery = "SELECT COUNT(*) FROM views WHERE experience_id = :experience_id AND user_id = :user_id";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
+        $strPrepare->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $strPrepare->execute();
+
+        if ($strPrepare->fetchColumn() == 0) {
+            // If the user hasn't viewed the experience, insert a new record in the views table
+            $strQuery = "INSERT INTO views (experience_id, user_id, viewed_at) VALUES (:experience_id, :user_id, NOW())";
+            $strPrepare = $this->_db->prepare($strQuery);
+            $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
+            $strPrepare->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $strPrepare->execute();
+        }
+    }
+
+    public function getViewCount($experienceId)
+    {
+        $strQuery = "SELECT COUNT(*) FROM views WHERE experience_id = :experience_id";
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
         $strPrepare->execute();
-    }
 
+        return $strPrepare->fetchColumn();
+    }
     public function toggleLikeDislike($experienceId, $userId)
     {
         // Check if the user has already liked the experience
@@ -117,6 +158,26 @@ class Experience_Model extends Db
 
         return $strPrepare->fetchColumn() > 0;
     }
+    public function hasUserCommented($experienceId, $userId)
+    {
+        $strQuery = "SELECT COUNT(*) FROM comments WHERE experience_id = :experience_id AND user_id = :user_id";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
+        $strPrepare->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $strPrepare->execute();
+
+        return $strPrepare->fetchColumn() > 0;
+    }
+    public function hasUserViewed($experienceId, $userId)
+    {
+        $strQuery = "SELECT COUNT(*) FROM views WHERE experience_id = :experience_id AND user_id = :user_id";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
+        $strPrepare->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $strPrepare->execute();
+
+        return $strPrepare->fetchColumn() > 0;
+    }
     public function createComment(Comment $comment)
     {
         $strQuery = "INSERT INTO comments (experience_id, user_id, comment, created_at) VALUES (:experience_id, :user_id, :comment, NOW())";
@@ -136,5 +197,25 @@ class Experience_Model extends Db
         $strPrepare->execute();
 
         return $strPrepare->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateExperience($objExperience)
+    {
+        $strQuery = "UPDATE user_experience SET title = :title, content = :content, updated_at = NOW() WHERE id = :experience_id";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindParam(':title', $objExperience->getTitle(), PDO::PARAM_STR);
+        $strPrepare->bindParam(':content', $objExperience->getContent(), PDO::PARAM_STR);
+        $strPrepare->bindParam(':experience_id', $objExperience->getId(), PDO::PARAM_INT);
+
+        return $strPrepare->execute();
+    }
+
+    public function deleteExperience($experienceId)
+    {
+        $strQuery = "UPDATE user_experience SET is_deleted = 1 WHERE id = :experience_id";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
+
+        return $strPrepare->execute();
     }
 }
