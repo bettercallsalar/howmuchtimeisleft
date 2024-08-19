@@ -192,7 +192,7 @@ class User_Ctrl extends Ctrl
         }
     }
 
-    public function getUserById(int $userId): array|bool
+    public function getUserById(int $userId)
     {
         $this->loadModels();
 
