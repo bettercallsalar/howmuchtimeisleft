@@ -49,7 +49,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/index.php?Controller=user&Action=login" title="Login">
+						<a class="nav-link" href="index.php?Controller=user&Action=login" title="Login">
 							<i class="fas fa-sign-in-alt"></i> Login
 						</a>
 					</li>

@@ -56,29 +56,3 @@
         </div>
     <?php endif; ?>
 </div>
-
-<script>
-    function filterTable() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        const table = document.getElementById('userTable');
-        const tr = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < tr.length; i++) {
-            const tdArray = tr[i].getElementsByTagName('td');
-            let matchFound = false;
-
-            for (let j = 0; j < tdArray.length; j++) {
-                const td = tdArray[j];
-                if (td) {
-                    if (td.textContent.toLowerCase().includes(filter)) {
-                        matchFound = true;
-                        break;
-                    }
-                }
-            }
-
-            tr[i].style.display = matchFound ? '' : 'none';
-        }
-    }
-</script>

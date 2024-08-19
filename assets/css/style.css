@@ -23,7 +23,7 @@
 }
 
 body {
-    padding-top: 60px; /* Adjusts body padding to prevent content from hiding under the navbar */
+    padding-top: 60px;
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,6 +32,7 @@ body {
     min-height: 100vh;
     margin: 0;
 }
+
 .container {
     margin-top: 50px;
 }
@@ -86,26 +87,32 @@ ul li:last-child {
 .week.checked {
     background-color: var(--week-checked-color);
 }
-.form-control{
+
+.form-control {
     background-color: var(--background-color);
     color: var(--text-color);
     border: 1px solid var(--border-color);
     max-width: 25%;
 }
 
-/* EXPERIENCES  */
-
+/* EXPERIENCES */
 
 .shared-on {
     display: flex;
     margin-left: 20px;
     color: var(--time-unit-color);
 }
+
 .card {
-    background-color: #ffffff; /* White background for the cards */
+    background-color: #ffffff;
     border: 1px solid var(--border-color);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
+    width: 100%; 
+    margin: 0 auto;
+    box-sizing: border-box; 
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
@@ -114,16 +121,24 @@ ul li:last-child {
 
 .card-title {
     color: var(--background-color);
+    margin-bottom: 10px;
+    font-size: 1.5rem; 
 }
-
 .card-text {
-    color: var(--header-gradient-en);
+    color: var(--header-gradient-end);
+    flex-grow: 1;
 }
 
 .card-footer {
     background-color: var(--header-gradient-end); 
     border-top: 1px solid var(--border-color);
     color: var(--heading-color);
+    width: 100%; 
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px; 
 }
 
 .btn-primary {
@@ -138,6 +153,7 @@ ul li:last-child {
 }
 
 /* Comment Section Styles */
+
 .comment {
     background-color: #f9f9f9; 
     border: 1px solid var(--border-color);
@@ -151,7 +167,6 @@ ul li:last-child {
 .comment:hover {
     transform: scale(1.02); 
 }
-
 
 .comment strong {
     color: var(--background-color); 
@@ -212,7 +227,8 @@ h3 {
     border-bottom: 2px solid var(--border-color);
     padding-bottom: 10px;
 }
-.comment-textarea{
+
+.comment-textarea {
     background-color: var(--background-color);
     color: var(--text-color);
     border: 1px solid var(--border-color);
@@ -221,6 +237,7 @@ h3 {
     max-height: 100%;
     min-height: 100%;
 }
+
 /* Header */
 
 .header {
@@ -244,14 +261,14 @@ h3 {
 }
 
 .header h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 20px;
     text-transform: uppercase;
 }
 
 .header p {
-    font-size: 1.25rem;
+    font-size: 1rem;
     max-width: 700px;
     margin: 0 auto;
     color: #ffffff;
@@ -265,23 +282,16 @@ h3 {
     color: var(--alert-text-color);
 }
 
-@media (max-width: 768px) {
-    .header h1 {
-        font-size: 2.5rem;
-    }
-
-    .header p {
-        font-size: 1rem;
-    }
-}
 /* Detailed Experience Styles */
 
 .card-detailed {
-    background-color: #ffffff; /* White background for the detailed card */
+    background-color: #ffffff;
     border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for emphasis */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: transform 0.2s;
+    /* width: 100%; */
+    margin: 0 auto;
 }
 
 .card-detailed:hover {
@@ -294,14 +304,14 @@ h3 {
 
 .card-title-detailed {
     color: var(--background-color);
-    font-size: 2rem; /* Larger font size for detailed view */
+    font-size: 1.75rem;
     margin-bottom: 15px;
 }
 
 .card-text-detailed {
     color: var(--header-gradient-end);
-    font-size: 1.25rem; /* Slightly larger text for readability */
-    line-height: 1.6; /* Improved readability */
+    font-size: 1.15rem;
+    line-height: 1.6;
     margin-bottom: 20px;
 }
 
@@ -309,9 +319,10 @@ h3 {
     display: block;
     margin-top: 15px;
     color: var(--time-unit-color);
-    font-size: 0.9rem; /* Smaller font for date */
+    font-size: 0.9rem;
     margin-bottom: 20px;
 }
+
 .no-decoration {
     text-decoration: none !important;
     color: inherit !important;
@@ -336,7 +347,7 @@ h3 {
 }
 
 .card-footer-detailed span {
-    font-size: 1rem; /* Slightly larger for visibility */
+    font-size: 1rem;
     color: var(--text-color);
 }
 
@@ -354,65 +365,42 @@ h3 {
     border-color: var(--hovering-color);
 }
 
-/* Media Queries for Detailed Page */
-
-@media (max-width: 768px) {
-    .card-detailed {
-        padding: 15px;
-    }
-
-    .card-title-detailed {
-        font-size: 1.75rem;
-    }
-
-    .card-text-detailed {
-        font-size: 1.15rem;
-    }
-
-    .btn-secondary {
-        font-size: 0.85rem;
-        padding: 6px 15px;
-    }
-}
 /* Admin Page CSS */
-/* General styling for the admin dashboard container */
+
 .admin-dashboard {
     padding: 2rem;
-    background-color: var(--background-color); /* Use background color from root */
+    background-color: var(--background-color);
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin: 2rem auto;
+    width: 90%;
 }
 
-/* Heading styling */
 .admin-dashboard h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
-    color: var(--heading-color); /* Use heading color from root */
+    color: var(--heading-color);
     text-align: center;
 }
 
-/* Form label styling */
 .admin-dashboard label {
     font-weight: bold;
-    color: var(--text-color); /* Use text color from root */
+    color: var(--text-color);
     margin-bottom: 0.5rem;
     display: inline-block;
 }
 
-/* Input field styling */
 .admin-dashboard .form-control {
     padding: 0.75rem;
     font-size: 1rem;
     border-radius: 5px;
-    border: 1px solid var(--border-color); /* Use border color from root */
+    border: 1px solid var(--border-color);
     margin-bottom: 1rem;
-    background-color: var(--background-color); /* Match the background */
-    color: var(--text-color); /* Match the text color */
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-/* Button styling */
 .admin-dashboard .btn {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
@@ -422,58 +410,39 @@ h3 {
 }
 
 .admin-dashboard .btn-primary {
-    background-color: var(--navbar-active-color); /* Use active navbar color */
-    border-color: var(--navbar-border-color); /* Use navbar border color */
-    color: var(--navbar-text-color); /* Use navbar text color */
+    background-color: var(--navbar-active-color);
+    border-color: var(--navbar-border-color);
+    color: var(--navbar-text-color);
 }
 
 .admin-dashboard .btn-primary:hover,
 .admin-dashboard .btn-primary:focus {
-    background-color: var(--hovering-color); /* Use week checked color for hover/focus */
+    background-color: var(--hovering-color);
     border-color: var(--hovering-color);
 }
 
 .admin-dashboard .btn-danger {
-    background-color: var(--alert-background-color); /* Use alert background color */
+    background-color: var(--alert-background-color);
     border-color: var(--alert-background-color);
-    color: var(--alert-text-color); /* Use alert text color */
+    color: var(--alert-text-color);
 }
 
 .admin-dashboard .btn-danger:hover,
 .admin-dashboard .btn-danger:focus {
-    background-color: var(--hovering-color); /* Use week checked color for hover/focus */
+    background-color: var(--hovering-color);
     border-color: var(--hovering-color);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .admin-dashboard {
-        padding: 1.5rem;
-    }
-
-    .admin-dashboard h1 {
-        font-size: 1.75rem;
-    }
-
-    .admin-dashboard .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-        margin-right: 0.25rem;
-        margin-bottom: 0.25rem;
-    }
-}
-
-
 /* Navbar */
+
 .navbar {
     background-color: var(--navbar-bg-color);
     border-bottom: 2px solid var(--navbar-border-color);
-    position: fixed; /* Fixes the navbar at the top */
-    top: 0; /* Positions the navbar at the top of the page */
-    width: 100%; /* Ensures the navbar spans the full width of the viewport */
-    z-index: 1000; /* Keeps the navbar above other elements on the page */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
-
 
 .navbar-brand {
     color: var(--navbar-text-color);
@@ -494,14 +463,13 @@ h3 {
 .navbar-nav .nav-link:focus,
 .navbar-nav .nav-link.active {
     text-decoration: underline;
-    color: var(--hovering-colorr);
+    color: var(--hovering-color);
 }
 
 .navbar-toggler {
     border-color: var(--navbar-border-color);
 }
 
-/* Dropdown menu */
 .navbar .dropdown-menu {
     background-color: var(--navbar-bg-color);
     border-color: var(--navbar-border-color);
@@ -522,6 +490,7 @@ h3 {
 }
 
 /* Wrapper for footer */
+
 .wrapper {
     flex: 1;
     display: flex;
@@ -529,6 +498,7 @@ h3 {
 }
 
 /* Footer */
+
 footer {
     background-color: var(--footer-bg-color) !important;
     color: var(--footer-text-color) !important;
@@ -555,8 +525,99 @@ footer .mb-0 {
     margin-bottom: 0 !important;
 }
 
-.user-introducer{
+.user-introducer {
     color: var(--header-gradient-end);
     display: flex;
     font-size: large;
+}
+
+/* Media Queries for Mobile Responsiveness */
+
+@media (max-width: 768px) {
+    /* Adjust body padding and container margins */
+    body {
+        padding-top: 20px;
+    }
+
+    .container {
+        margin-top: 20px;
+        /* padding: 0 10px; */
+    }
+
+    /* Reduce the size of headings */
+    h1, h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Adjust list item font size */
+    ul li {
+        font-size: 1rem;
+        padding: 8px 0;
+    }
+
+    /* Adjust grid layout for week elements */
+    .week-grid {
+        grid-template-columns: repeat(50, 6px);
+        grid-gap: 1px;
+    }
+
+    .week {
+        width: 6px;
+        height: 6px;
+    }
+
+    /* Make cards full-width on smaller screens */
+    .card, .card-detailed {
+        margin: 10px;
+        width: 100%; /* Full-width on small screens */
+    }
+
+    /* Adjust detailed experience text sizes */
+    .card-title-detailed {
+        font-size: 1.5rem;
+    }
+
+    .card-text-detailed {
+        font-size: 1rem;
+    }
+
+    /* Footer adjustments */
+    footer {
+        padding: 1rem 0;
+    }
+
+    footer p {
+        font-size: 0.9rem;
+    }
+
+    /* Navbar adjustments */
+    .navbar-nav .nav-link {
+        font-size: 0.875rem;
+        padding: 10px 5px;
+    }
+
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+    }
+
+    /* Admin Dashboard adjustments */
+    .admin-dashboard {
+        padding: 1.5rem;
+        width: 100%;
+    }
+
+    .admin-dashboard h1 {
+        font-size: 1.75rem;
+    }
+
+    .admin-dashboard .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
 }

@@ -7,9 +7,9 @@ class Db
 	{
 		try {
 			$this->_db = new PDO(
-				"mysql:host=localhost;dbname=howmuchisleft",
-				"root",
-				"",
+				"mysql:host=51.159.3.196;dbname=howmuchisleft",
+				"bettercallsalar",
+				"Vuxim494",
 				array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC)
 			);
 			// Pour résoudre les problèmes d’encodage

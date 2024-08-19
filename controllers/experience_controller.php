@@ -131,10 +131,9 @@ class Experience_Ctrl extends Ctrl
         $this->loadExperienceData($experienceId);
 
         $this->_arrData['isEditMode'] = (isset($_GET['Action']) && $_GET['Action'] === 'editExperience');
-        $this->getCommentOfExperience();
-        $this->experienceDetails();
-    }
 
+        $this->getCommentOfExperience();
+    }
     public function experienceDetails()
     {
         $this->_arrData['strPage'] = "experience_details";

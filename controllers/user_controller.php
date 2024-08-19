@@ -59,11 +59,14 @@ class User_Ctrl extends Ctrl
                 }
             }
 
-            $this->displayErrors($arrErrors);
+            if (!empty($arrErrors)) {
+                $this->displayErrors($arrErrors);
+            }
         }
 
         $this->renderPage('login', "Login", "Login page");
     }
+
 
     public function logout()
     {

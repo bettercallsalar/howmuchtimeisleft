@@ -6,8 +6,8 @@ class User_Model extends Db
 {
     public function createUser($objUser)
     {
-        $strQuery = "INSERT INTO user (first_name, last_name, email, password, date_of_birth, country_id, gendre, role, username) 
-                     VALUES (:first_name, :last_name, :email, :password, :date_of_birth, :country_id, :gendre, :role, :username);";
+        $strQuery = "INSERT INTO user (first_name, last_name, email, password, date_of_birth, country_id, gendre, username) 
+                     VALUES (:first_name, :last_name, :email, :password, :date_of_birth, :country_id, :gendre, :username);";
 
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindValue(":first_name", $objUser->getFirstName(), PDO::PARAM_STR);
@@ -17,7 +17,6 @@ class User_Model extends Db
         $strPrepare->bindValue(":date_of_birth", $objUser->getDateOfBirth(), PDO::PARAM_STR);
         $strPrepare->bindValue(":country_id", $objUser->getCountryId(), PDO::PARAM_INT);
         $strPrepare->bindValue(":gendre", $objUser->getGendre(), PDO::PARAM_STR);
-        $strPrepare->bindValue(":role", $objUser->getRole(), PDO::PARAM_STR);
         $strPrepare->bindValue(":username", $objUser->getUsername(), PDO::PARAM_STR);
 
         return $this->queryExecuter($strPrepare);
