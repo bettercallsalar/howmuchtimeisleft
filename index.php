@@ -2,7 +2,7 @@
 ob_start();
 
 session_start();
-
+echo undefined_function();
 $Controller = isset($_GET['Controller']) ? $_GET['Controller'] : 'home';
 $Action = isset($_GET['Action']) ? $_GET['Action'] : 'index';
 

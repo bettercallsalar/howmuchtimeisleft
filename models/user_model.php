@@ -1,7 +1,5 @@
 <?php
 
-include_once("db.php");
-
 class User_Model extends Db
 {
     public function createUser($objUser)
@@ -33,17 +31,17 @@ class User_Model extends Db
         return $result !== false && is_array($result->fetch());
     }
 
-    public function getByMail(string $strMail): array|bool
-    {
-        $strQuery = "SELECT id, password, first_name, last_name, email, username, role, is_private, date_of_birth, country_id, gendre, hobbies, bio, last_login
-                     FROM user
-                     WHERE email = :email;";
-        $strPrepare = $this->_db->prepare($strQuery);
-        $strPrepare->bindValue(":email", $strMail, PDO::PARAM_STR);
-        $result = $this->queryExecuter($strPrepare);
+public function getByMail(string $strMail) // Remove the return type declaration
+{
+    $strQuery = "SELECT id, password, first_name, last_name, email, username, role, is_private, date_of_birth, country_id, gendre, hobbies, bio, last_login
+                 FROM user
+                 WHERE email = :email;";
+    $strPrepare = $this->_db->prepare($strQuery);
+    $strPrepare->bindValue(":email", $strMail, PDO::PARAM_STR);
+    $result = $this->queryExecuter($strPrepare);
 
-        return $result !== false ? $result->fetch() : false;
-    }
+    return $result !== false ? $result->fetch() : false;
+}
 
     public function updateLastConnection(string $strId)
     {

@@ -33,37 +33,39 @@ class User_Ctrl extends Ctrl
         $this->renderPage('create_account', "Create Account", "Create your account");
     }
 
-    public function login()
-    {
-        $this->loadModels();
-        $arrErrors = array();
+public function login()
+{
+    $this->loadModels();
+    $arrErrors = array();
 
-        if ($_POST) {
-            $strEmail = trim($_POST['email']);
-            $strPassword = $_POST['password'];
+    if ($_POST) {
+        $strEmail = trim($_POST['email']);
+        $strPassword = $_POST['password'];
 
-            if (empty($strEmail) || empty($strPassword)) {
-                $arrErrors[] = "Email and password are required.";
+        if (empty($strEmail) || empty($strPassword)) {
+            $arrErrors[] = "Email and password are required.";
+        } else {
+            $arrUser = $this->_arrData['userModel']->getByMail($strEmail);
+
+            if (!$arrUser || !password_verify($strPassword, $arrUser['password'])) {
+                $arrErrors[] = "Incorrect email or password. Please try again.";
             } else {
-                $arrUser = $this->_arrData['userModel']->getByMail($strEmail);
-
-                if (!$arrUser || !password_verify($strPassword, $arrUser['password'])) {
-                    $arrErrors[] = "Incorrect email or password. Please try again.";
-                } else {
-                    unset($arrUser['password']);
-                    $_SESSION['user'] = $arrUser;
-                    $_SESSION['valid'] = "You are now connected.";
-                    $this->_arrData['userModel']->updateLastConnection($arrUser['id']);
-                    header("Location:index.php");
-                    exit;
-                }
+                unset($arrUser['password']);
+                $_SESSION['user'] = $arrUser;
+                $_SESSION['valid'] = "You are now connected.";
+                $this->_arrData['userModel']->updateLastConnection($arrUser['id']);
+                header("Location:index.php");
+                exit;
             }
-
-            $this->displayErrors($arrErrors);
         }
 
-        $this->renderPage('login', "Login", "Login page");
+        if (!empty($arrErrors)) {
+            $this->displayErrors($arrErrors);
+        }
     }
+
+    $this->renderPage('login', "Login", "Login page");
+}
 
     public function logout()
     {
