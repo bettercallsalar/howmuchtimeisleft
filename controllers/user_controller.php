@@ -2,6 +2,7 @@
 
 class User_Ctrl extends Ctrl
 {
+
     public function createAccount()
     {
         $this->loadModels();
@@ -32,6 +33,17 @@ class User_Ctrl extends Ctrl
 
         $this->renderPage('create_account', "Create Account", "Create your account");
     }
+    protected function validatePassword($password)
+    {
+        $errors = [];
+
+        if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
+            $errors[] = "Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.";
+        }
+
+        return $errors;
+    }
+
 
     public function login()
     {
@@ -140,7 +152,7 @@ class User_Ctrl extends Ctrl
         if (empty($postData['last_name'])) {
             $arrErrors['last_name'] = "Please enter your last name.";
         }
-        if (empty($postData['gendre'])) {
+        if (empty($postData['gendre'])) {  // Consider changing 'gendre' to 'gender'
             $arrErrors['gendre'] = "Please enter your gender.";
         }
         if (empty($postData['email'])) {
@@ -160,6 +172,12 @@ class User_Ctrl extends Ctrl
             $arrErrors['country_id'] = "Please select your country.";
         } else {
             $objUser->setCountryId((int)$postData['country_id']);
+        }
+
+        // Validate password
+        $passwordErrors = $this->validatePassword($postData['password']);
+        if (!empty($passwordErrors)) {
+            $arrErrors['password'] = $passwordErrors;
         }
 
         return $arrErrors;
@@ -188,7 +206,13 @@ class User_Ctrl extends Ctrl
         if (!empty($arrErrors)) {
             echo "<div class='alert alert-danger'>";
             foreach ($arrErrors as $strError) {
-                echo "<p>" . $strError . "</p>";
+                if (is_array($strError)) {
+                    foreach ($strError as $error) {
+                        echo "<p>" . $error . "</p>";
+                    }
+                } else {
+                    echo "<p>" . $strError . "</p>";
+                }
             }
             echo "</div>";
         }
