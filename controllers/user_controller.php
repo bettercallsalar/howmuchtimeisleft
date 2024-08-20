@@ -37,9 +37,31 @@ class User_Ctrl extends Ctrl
     {
         $errors = [];
 
-        if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
-            $errors[] = "Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.";
+        error_log("Validating Password: " . $password);
+
+        if (strlen($password) < 8) {
+            $errors[] = "Password must be at least 8 characters long.";
         }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            $errors[] = "Password must include at least one uppercase letter.";
+        }
+
+        if (!preg_match('/[a-z]/', $password)) {
+            $errors[] = "Password must include at least one lowercase letter.";
+        }
+
+        if (!preg_match('/\d/', $password)) {
+            $errors[] = "Password must include at least one number.";
+        }
+
+        if (!preg_match('/[@$!%*?&]/', $password)) {
+            $errors[] = "Password must include at least one special character.";
+        } else {
+            error_log("Special character found in password.");
+        }
+
+        error_log("Password Validation Errors: " . print_r($errors, true));
 
         return $errors;
     }
@@ -174,14 +196,17 @@ class User_Ctrl extends Ctrl
             $objUser->setCountryId((int)$postData['country_id']);
         }
 
-        // Validate password
         $passwordErrors = $this->validatePassword($postData['password']);
+
+        error_log("Password Validation Errors: " . print_r($passwordErrors, true));
+
         if (!empty($passwordErrors)) {
             $arrErrors['password'] = $passwordErrors;
         }
 
         return $arrErrors;
     }
+
 
     private function updateSessionData($objUser)
     {
@@ -205,10 +230,10 @@ class User_Ctrl extends Ctrl
     {
         if (!empty($arrErrors)) {
             echo "<div class='alert alert-danger'>";
-            foreach ($arrErrors as $strError) {
+            foreach ($arrErrors as $key => $strError) {
                 if (is_array($strError)) {
                     foreach ($strError as $error) {
-                        echo "<p>" . $error . "</p>";
+                        echo "<p><strong>" . ucfirst($key) . " Error:</strong> " . $error . "</p>";
                     }
                 } else {
                     echo "<p>" . $strError . "</p>";
