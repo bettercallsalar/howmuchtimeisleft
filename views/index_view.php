@@ -30,12 +30,14 @@
     ?>
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <h2>Welcome, <?php echo htmlspecialchars($firstName . ' ' . $lastName); ?>!</h2>
-                <p class="text-center">Date of Birth: <strong><?php echo $dob->format('F j, Y'); ?></strong></p>
-                <p class="text-center">Time passed since birth:</p>
+                <p>Date of Birth: <strong><?php echo $dob->format('F j, Y'); ?></strong></p>
+                <p>Time passed since birth:</p>
+                <p class="mt-4">Each square represents a week of your life. The red squares indicate the weeks that have already passed, while the green squares show the weeks you still have left to live. Cherish the time you have and make the most of every moment!</p>
             </div>
         </div>
+
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -77,11 +79,33 @@
 
     <?php else: ?>
 
-        <div class="row">
-            <div class="col-12">
-                <p class="text-center">Please <a href="index.php?Controller=user&Action=login">log in</a> to see your details.</p>
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <h2>Welcome!</h2>
+
+
+                <div class="container about-page mt-5">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <h2>What We Offer</h2>
+                            <ul>
+                                <li>A platform to share your life experiences with a supportive community.</li>
+                                <li>Opportunities to learn from the stories of others, gaining insights into different perspectives and cultures.</li>
+                                <li>Interactive features like comments and likes to engage with others and build connections.</li>
+                            </ul>
+
+                            <h2>Join Our Community</h2>
+                            <p>Be a part of our growing community. Share your stories, connect with others, and discover the power of shared experiences. Together, we can inspire change and make a difference in each other's lives.</p>
+                        </div>
+                    </div>
+                </div>
+                <p>To view your details and manage your account, please log in.</p>
+                <a href="index.php?Controller=user&Action=login" class="btn btn-primary btn-lg mt-3">Log In</a>
+                <p class="mt-4">Don't have an account? <a href="index.php?Controller=user&Action=createAccount" class="text-primary font-weight-bold">Create one now!</a></p>
             </div>
         </div>
+
 
     <?php endif; ?>
 </div>

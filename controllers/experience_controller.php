@@ -82,7 +82,7 @@ class Experience_Ctrl extends Ctrl
         $this->_arrData['experiences'] = $experiences;
         $this->_arrData['strPage'] = "life_experiences";
         $this->_arrData['strTitleH1'] = "Life Experiences";
-        $this->_arrData['strFirstP'] = "Explore the experiences shared by others.";
+        $this->_arrData['strFirstP'] = "Dive into a collection of personal stories, reflections, and life lessons shared by people from all walks of life. Whether you're seeking inspiration, wisdom, or simply curious about how others navigate their journeys, these experiences offer valuable insights and perspectives. Explore, connect, and discover the common threads that unite us all.";
 
         $this->render('life_experiences');
     }
@@ -120,7 +120,7 @@ class Experience_Ctrl extends Ctrl
 
         $this->_arrData['strPage'] = "create_experience";
         $this->_arrData['strTitleH1'] = "Share Your Experience";
-        $this->_arrData['strFirstP'] = "Tell us about your life experiences.";
+        $this->_arrData['strFirstP'] = "Your stories and experiences are powerful tools that can inspire, educate, and connect with others. Whether you've overcome challenges, achieved personal growth, or simply learned valuable life lessons, we invite you to share your journey with our community. By contributing your experiences, you not only reflect on your own path but also provide insights and encouragement to those who may be on a similar journey. Start sharing today, and help build a tapestry of diverse life experiences.";
 
         $this->render('create_experience');
     }

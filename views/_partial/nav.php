@@ -10,7 +10,7 @@
 					<a class="nav-link <?php echo ($strPage == "index") ? "active" : ""; ?>" href="index.php">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link <?php echo ($strPage == "life_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=lifeExperience">Life Experience</a>
+					<a class="nav-link <?php echo ($strPage == "life_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=lifeExperience">Life Experiences</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link <?php echo ($strPage == "create_experience") ? "active" : ""; ?>" href="index.php?Controller=experience&Action=createExperience">Share Experience</a>

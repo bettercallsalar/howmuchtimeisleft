@@ -1,6 +1,4 @@
 <div class="container">
-    <h2><?php echo $strTitleH1; ?></h2>
-    <p><?php echo $strFirstP; ?></p>
 
     <form action="index.php?Controller=experience&Action=createExperience" method="post">
         <div class="mb-3">
