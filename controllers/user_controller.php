@@ -67,7 +67,6 @@ class User_Ctrl extends Ctrl
         $this->renderPage('login', "Login", "Login page");
     }
 
-
     public function logout()
     {
         session_destroy();
