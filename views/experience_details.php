@@ -34,7 +34,6 @@
                 </div>
             </div>
 
-            <!-- Edit Experience Form -->
             <?php if ($isEditMode): ?>
                 <div class="col-md-12">
                     <h3>Edit Experience</h3>

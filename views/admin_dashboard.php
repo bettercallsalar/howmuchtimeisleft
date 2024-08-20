@@ -14,7 +14,6 @@
         <button type="submit" name="action" value="unbanUser" class="btn btn-primary">Unban User</button>
     </form>
 
-    <!-- Search Input -->
     <div class="mt-4">
         <label for="searchInput" class="form-label">Search Users</label>
         <input type="text" class="form-control" id="searchInput" onkeyup="filterTable()" placeholder="Search by username, first name, last name, or email">
