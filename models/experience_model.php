@@ -63,7 +63,7 @@ class Experience_Model extends Db
 
     public function getSortedExperiences($sort)
     {
-        $orderClause = "ue.created_at DESC"; // Default sorting (most recent)
+        $orderClause = "ue.created_at DESC";
 
         switch ($sort) {
             case 'oldest':
@@ -139,7 +139,6 @@ class Experience_Model extends Db
 
     public function incrementViewCount($experienceId, $userId)
     {
-        // Check if the user has already viewed this experience
         $strQuery = "SELECT COUNT(*) FROM views WHERE experience_id = :experience_id AND user_id = :user_id";
         $strPrepare = $this->_db->prepare($strQuery);
         $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
@@ -147,7 +146,6 @@ class Experience_Model extends Db
         $strPrepare->execute();
 
         if ($strPrepare->fetchColumn() == 0) {
-            // If the user hasn't viewed the experience, insert a new record in the views table
             $strQuery = "INSERT INTO views (experience_id, user_id, viewed_at) VALUES (:experience_id, :user_id, NOW())";
             $strPrepare = $this->_db->prepare($strQuery);
             $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
@@ -178,12 +176,10 @@ class Experience_Model extends Db
             $strQuery = "DELETE FROM likes WHERE experience_id = :experience_id AND user_id = :user_id";
             $strPrepare = $this->_db->prepare($strQuery);
         } else {
-            // If the like does not exist, add it (like)
             $strQuery = "INSERT INTO likes (experience_id, user_id) VALUES (:experience_id, :user_id)";
             $strPrepare = $this->_db->prepare($strQuery);
         }
 
-        // Execute the query
         $strPrepare->bindParam(':experience_id', $experienceId, PDO::PARAM_INT);
         $strPrepare->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $strPrepare->execute();

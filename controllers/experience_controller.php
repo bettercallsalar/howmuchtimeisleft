@@ -95,7 +95,6 @@ class Experience_Ctrl extends Ctrl
             $objExperience->hydrate($_POST);
             $objExperience->setUserId($_SESSION['user']['id']);
 
-            // Check for errors
             $arrErrors = $this->handleValidation($_POST);
             if (count($arrErrors) == 0) {
                 $checkLastExperience = $this->objExperienceModel->getLastExperience($_SESSION['user']['id']);
@@ -176,14 +175,12 @@ class Experience_Ctrl extends Ctrl
             $objComment->setUserId($_SESSION['user']['id']);
             $objComment->setExperienceId($_POST['experience_id']);
 
-            // Ensure comment field is not empty
             if (empty($_POST['comment'])) {
                 $_SESSION['error'] = "Please enter a comment.";
                 header("Location: index.php?Controller=experience&Action=getCommentOfExperience&experience_id=" . $_POST['experience_id']);
                 exit;
             }
 
-            // Insert the comment into the database
             if ($this->objExperienceModel->createComment($objComment)) {
                 $_SESSION['valid'] = "Your comment has been shared successfully.";
             } else {

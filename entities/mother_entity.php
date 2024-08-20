@@ -1,13 +1,9 @@
 <?php
 
-/**
- * Classe mère des entités
- */
-
 class Entity
 {
     protected string $_prefixe = '';
-    protected ?int $_id = null;  // Making the ID nullable
+    protected ?int $_id = null;
 
     public function __construct() {}
 

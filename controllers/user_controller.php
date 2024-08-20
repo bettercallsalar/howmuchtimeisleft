@@ -152,7 +152,7 @@ class User_Ctrl extends Ctrl
         if (empty($postData['last_name'])) {
             $arrErrors['last_name'] = "Please enter your last name.";
         }
-        if (empty($postData['gendre'])) {  // Consider changing 'gendre' to 'gender'
+        if (empty($postData['gendre'])) {
             $arrErrors['gendre'] = "Please enter your gender.";
         }
         if (empty($postData['email'])) {

@@ -533,28 +533,23 @@ footer .mb-0 {
 /* Media Queries for Mobile Responsiveness */
 
 @media (max-width: 768px) {
-    /* Adjust body padding and container margins */
     body {
         padding-top: 20px;
     }
 
     .container {
         margin-top: 20px;
-        /* padding: 0 10px; */
     }
 
-    /* Reduce the size of headings */
     h1, h2 {
         font-size: 1.5rem;
     }
 
-    /* Adjust list item font size */
     ul li {
         font-size: 1rem;
         padding: 8px 0;
     }
 
-    /* Adjust grid layout for week elements */
     .week-grid {
         grid-template-columns: repeat(50, 6px);
         grid-gap: 1px;
@@ -565,13 +560,11 @@ footer .mb-0 {
         height: 6px;
     }
 
-    /* Make cards full-width on smaller screens */
     .card, .card-detailed {
         margin: 10px;
-        width: 100%; /* Full-width on small screens */
+        width: 100%; 
     }
 
-    /* Adjust detailed experience text sizes */
     .card-title-detailed {
         font-size: 1.5rem;
     }
@@ -580,7 +573,6 @@ footer .mb-0 {
         font-size: 1rem;
     }
 
-    /* Footer adjustments */
     footer {
         padding: 1rem 0;
     }
@@ -589,7 +581,6 @@ footer .mb-0 {
         font-size: 0.9rem;
     }
 
-    /* Navbar adjustments */
     .navbar-nav .nav-link {
         font-size: 0.875rem;
         padding: 10px 5px;
@@ -603,7 +594,6 @@ footer .mb-0 {
         padding: 0.25rem 0.5rem;
     }
 
-    /* Admin Dashboard adjustments */
     .admin-dashboard {
         padding: 1.5rem;
         width: 100%;

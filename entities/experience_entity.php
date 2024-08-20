@@ -12,7 +12,6 @@ class Experience extends Entity
     private bool $is_public;
     private bool $is_deleted;
 
-    // Setters and getters
     public function setId(int $id)
     {
         $this->id = $id;

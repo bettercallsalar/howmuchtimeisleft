@@ -8,7 +8,6 @@ class Country_Ctrl extends Ctrl
         $objCountryModel = new Country_Model();
         $arrErrors = array();
 
-        // Ensure the country ID is valid
         if ($countryId <= 0) {
             $arrErrors[] = "Invalid country ID provided.";
         } else {
@@ -33,7 +32,6 @@ class Country_Ctrl extends Ctrl
         $objCountryModel = new Country_Model();
         $arrErrors = array();
 
-        // Ensure the user ID is valid
         if ($userId <= 0) {
             $arrErrors[] = "Invalid user ID provided.";
         } else {

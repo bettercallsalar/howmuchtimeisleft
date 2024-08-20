@@ -20,7 +20,6 @@ class Page_Ctrl extends Ctrl
         if (!$_SESSION['user']) {
             header("Location:index.php?ctrl=error&action=error_403");
         }
-
         $this->renderPage('about', "About", "About us");
     }
 }

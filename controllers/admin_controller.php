@@ -97,7 +97,6 @@ class Admin_Ctrl extends Ctrl
             }
         }
 
-        // Fetch all users to display after the form
         $users = $userModel->getAllUsers();
         $this->_arrData['users'] = $users;
 

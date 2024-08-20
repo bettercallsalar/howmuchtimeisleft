@@ -14,10 +14,9 @@ class User extends Entity
     private string $role = '';
     private string $username = '';
     private string $bio = '';
-    private ?string $hobbies = null; // Allow hobbies to be nullable
+    private ?string $hobbies = null;
     private bool $is_private = false;
 
-    // Setters and getters
     public function setFirstName(string $strFirstName)
     {
         $this->first_name = strtolower(trim($strFirstName));
