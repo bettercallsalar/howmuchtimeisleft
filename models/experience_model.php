@@ -16,6 +16,15 @@ class Experience_Model extends Db
 
         return $this->queryExecuter($strPrepare);
     }
+    public function getLastExperienceDate($userId)
+    {
+        $strQuery = "SELECT created_at FROM user_experience WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1";
+        $strPrepare = $this->_db->prepare($strQuery);
+        $strPrepare->bindValue(":user_id", $userId, PDO::PARAM_INT);
+        $strPrepare->execute();
+
+        return $strPrepare->fetchColumn();
+    }
     public function updateLastExperience($userId)
     {
         $strQuery = "UPDATE user SET last_experience = NOW() WHERE id = :user_id;";

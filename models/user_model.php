@@ -1,5 +1,5 @@
 <?php
-
+include_once 'db.php';
 class User_Model extends Db
 {
     public function createUser($objUser)

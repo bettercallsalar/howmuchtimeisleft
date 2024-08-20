@@ -97,13 +97,20 @@ class Experience_Ctrl extends Ctrl
 
             $arrErrors = $this->handleValidation($_POST);
             if (count($arrErrors) == 0) {
-                $checkLastExperience = $this->objExperienceModel->getLastExperience($_SESSION['user']['id']);
-                if ($checkLastExperience && (time() - strtotime($checkLastExperience)) < 86400) {
-                    $_SESSION['error'] = "You can only share one experience per day. Please try again later.";
-                    header("Location: index.php?Controller=experience&Action=lifeExperience");
-                    exit;
+                $lastExperienceDate = $this->objExperienceModel->getLastExperienceDate($_SESSION['user']['id']);
+
+                if ($lastExperienceDate) {
+                    // Calculate the time difference in seconds
+                    $timeDifference = time() - strtotime($lastExperienceDate);
+
+                    if ($timeDifference < 86400) { // 86400 seconds in 24 hours
+                        $_SESSION['error'] = "You can only share one experience per day. Please try again later.";
+                        header("Location: index.php?Controller=experience&Action=lifeExperience");
+                        exit;
+                    }
                 }
 
+                // If no recent experience or time difference is more than 24 hours, allow creation
                 $boolInsert = $this->objExperienceModel->createExperience($objExperience);
                 if ($boolInsert) {
                     $_SESSION['valid'] = "Your experience has been shared successfully.";
@@ -123,6 +130,7 @@ class Experience_Ctrl extends Ctrl
 
         $this->render('create_experience');
     }
+
 
     public function readMore()
     {
